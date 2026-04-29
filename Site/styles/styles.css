@@ -18,18 +18,19 @@ a {
 }
 
 body {
-    height: 100vh;
-    background-color: rgb(0, 0, 0);
+    background-color: rgb(11, 11, 11);
     background-size: cover;
-    backdrop-filter: brightness(55%);
 }
 
-nav {
+header {
     display: flex;
     height: 70px;
-    width: 100vw;
+    width: 100%;
     justify-content: center;   
-    position: absolute;
+    z-index: 1000;
+    position: fixed;
+    top: 0;
+    left: 0;
 }
 
 .nav_bar {
@@ -37,18 +38,12 @@ nav {
     justify-content: space-between;
     align-items: center;
     height: 100%;
-    width: 69vw;
+    width: 100vw;
     border-radius: 0px 0px 25px 25px;
-    background-color: rgb(43, 43, 43);
-    padding: 0px 15px;
+    background-color: rgba(29, 29, 29, 0.17);
+    padding: 11px 35px;
 }
 
-.areanav {
-    display: flex;
-    align-items: center;
-    height: 100%;
-    width: 23vw;
-}
 
 .logobox {
     display: flex;
@@ -63,7 +58,9 @@ nav {
 }
 
 .inicioB {
-    background-color: green;
+    padding: 3px;
+    background-color: white;
+    border-radius: 15px;
 }
 
 .botoesD {
@@ -72,14 +69,70 @@ nav {
 }
 
 .entrarb {
-    background-color: rgb(0, 114, 0);
+    padding: 3px;
+    background-color: white;
+    border-radius: 15px;
 }
 
 /*      Primeira sessão     */
 
 .primeirasessao {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     height: 100vh;
+    background-color: rgb(0, 0, 0);
+    margin-top: 0px;
+    border-bottom: solid 1px white;
 }
+
+.primeiratela {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10vw;
+}
+
+.backgroundHome {
+    height: 50vh;
+    border-radius: 935px;
+    margin-right: 60px;
+    z-index: 0;
+}
+
+.tituloP {
+    font-size: 56px;
+    color: white;
+}
+
+.titulos {
+    color: white;
+    font-size: 20px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.começarB {
+    font-size: 23px;
+    background-color: white;
+    margin-top: 90px;
+    padding: 18px;
+    border-radius: 45px;
+}
+
+.separaçao {
+    height: 80px;
+    background-color: black;
+    border-radius: 0px 0px 30px 0px;
+    margin-right: 20px;
+}
+
+
+
+
+/*      pagina Cronometro        */
+
 
 .cronometro-content{
     display: flex;
@@ -186,11 +239,26 @@ nav {
 }
 
 .cuboimg {
-    height: 300px;
-    background-color: rgba(134, 134, 134, 0.171);
+    height: 400px;
+    background-color: rgba(134, 134, 134, 0);
+    padding: 50px 20px;
+    border-radius: 1000px;
+    filter: brightness(75%);
+}
+
+.primeirasessao {
+    display: flex;
+}
+
+.cubosombra {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-top: 40vh;
     margin-left: 10vw;
-    padding: 50px 20px;
-    filter: drop-shadow();
-    border-radius: 1000px;
+    background-color: rgba(255, 255, 255, 0.045);
+    height: 320px;
+    width: 300px;
+    border-radius: 300px;
+    filter: drop-shadow(0px 0px 50px rgba(255, 255, 255, 0.729));
 }

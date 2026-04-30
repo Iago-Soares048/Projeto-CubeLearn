@@ -40,7 +40,8 @@ header {
     height: 100%;
     width: 100vw;
     border-radius: 0px 0px 25px 25px;
-    background-color: rgba(29, 29, 29, 0.17);
+    background-color: rgba(47, 47, 47, 0.149);
+    backdrop-filter: blur(8px);
     padding: 11px 35px;
 }
 
@@ -128,6 +129,17 @@ header {
     margin-right: 20px;
 }
 
+/*      Segunda Sessão        */
+
+.segundasessão {
+    height: 100vh;
+}
+
+.linhaDoTempo {
+    margin-left: 1px solid white;
+}
+
+
 
 
 
@@ -159,6 +171,15 @@ header {
     align-items: center;
     width: 100vw;
     height: 100vh;
+    backdrop-filter: brightness(25%);
+}
+
+.backgroundCadastroLogin {
+    background-image: url(../images/loginback.png);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+
 }
 
 .cadastro-box {
@@ -166,7 +187,7 @@ header {
     align-items: center;
     justify-content: space-between;
     flex-direction: column;
-    background-color: white;
+    background-color: rgb(255, 255, 255);
     padding: 50px;
     width: 370px;
     height: 450px;

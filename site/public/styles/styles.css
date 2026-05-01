@@ -1,0 +1,285 @@
+@import url('https://fonts.googleapis.com/css2?family=Titan+One&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+}
+
+* button {
+    background-color: transparent;
+    margin: 0;
+    padding: 0;
+    border: 0px;
+}
+
+a {
+    color: black;
+}
+
+body {
+    background-color: rgb(11, 11, 11);
+    background-size: cover;
+}
+
+header {
+    display: flex;
+    height: 70px;
+    width: 100%;
+    justify-content: center;   
+    z-index: 1000;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.nav_bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    width: 100vw;
+    border-radius: 0px 0px 25px 25px;
+    background-color: rgba(47, 47, 47, 0.149);
+    backdrop-filter: blur(8px);
+    padding: 11px 35px;
+}
+
+
+.logobox {
+    display: flex;
+    justify-content: center;
+    width: 23vw;
+}
+
+.logo {
+    display: flex;
+    height: 50px;
+    margin-bottom: 4px;
+}
+
+.inicioB {
+    padding: 3px;
+    background-color: white;
+    border-radius: 15px;
+}
+
+.botoesD {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.entrarb {
+    padding: 3px;
+    background-color: white;
+    border-radius: 15px;
+}
+
+/*      Primeira sessão     */
+
+.primeirasessao {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100vh;
+    background-color: rgb(0, 0, 0);
+    margin-top: 0px;
+    border-bottom: solid 1px white;
+}
+
+.primeiratela {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10vw;
+}
+
+.backgroundHome {
+    height: 50vh;
+    border-radius: 935px;
+    margin-right: 60px;
+    z-index: 0;
+}
+
+.tituloP {
+    font-size: 56px;
+    color: white;
+}
+
+.titulos {
+    color: white;
+    font-size: 20px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.começarB {
+    font-size: 23px;
+    background-color: white;
+    margin-top: 90px;
+    padding: 18px;
+    border-radius: 45px;
+}
+
+.separaçao {
+    height: 80px;
+    background-color: black;
+    border-radius: 0px 0px 30px 0px;
+    margin-right: 20px;
+}
+
+/*      Segunda Sessão        */
+
+.segundasessão {
+    height: 100vh;
+}
+
+.linhaDoTempo {
+    margin-left: 1px solid white;
+}
+
+
+
+
+
+/*      pagina Cronometro        */
+
+
+.cronometro-content{
+    display: flex;
+    margin-top: 120px;
+    justify-content: center;
+}
+
+.box {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width: max-content;
+    background-color: white;
+    
+}
+
+/*           Cadastro            */
+
+
+.sessão-cadastro {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    backdrop-filter: brightness(25%);
+}
+
+.backgroundCadastroLogin {
+    background-image: url(../images/loginback.png);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+
+}
+
+.cadastro-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    background-color: rgb(255, 255, 255);
+    padding: 50px;
+    width: 370px;
+    height: 450px;
+    padding-top: 20px;
+    border-radius: 45px;
+}
+
+
+
+.emailimg {
+    height: 30px;
+    width: 30px;
+    padding: 10px;
+}
+
+.cadastro-box p {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    font-size: 32px;
+    font-family: Arial, Helvetica, sans-serif;
+    width: 300px;
+}
+
+.campo {
+    display: flex;
+    align-items: center ;
+    margin-top: 20px;
+    height: 50px;
+    width: 330px;
+    border-radius: 8px;
+    background-color: white;
+    border: 1px solid black;
+}
+
+.senha {
+    margin-top: 45px;
+}
+
+.cadastro-box input {
+    height: 100%;
+    width: 100%;
+    border: 0px;
+    border-radius: 0px 15px 15px 0px;
+    background-color: white;
+    border-left: 1px solid black;
+    padding-left: 7px;
+    font-size: 17px;
+
+}
+
+.cadastrob {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgb(255, 255, 255);
+    background-color: green;
+    font-size: 26px;
+    margin-top: 15px;
+    padding: 18px;
+    border-radius: 35px;
+    height: 15px;
+    width: 330px;
+}
+
+.butoes {
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+}
+
+.cuboimg {
+    height: 400px;
+    background-color: rgba(134, 134, 134, 0);
+    padding: 50px 20px;
+    border-radius: 1000px;
+    filter: brightness(75%);
+}
+
+.primeirasessao {
+    display: flex;
+}
+
+.cubosombra {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 40vh;
+    margin-left: 10vw;
+    background-color: rgba(255, 255, 255, 0.045);
+    height: 320px;
+    width: 300px;
+    border-radius: 300px;
+    filter: drop-shadow(0px 0px 50px rgba(255, 255, 255, 0.729));
+}

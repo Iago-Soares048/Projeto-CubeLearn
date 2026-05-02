@@ -1,41 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cronometro</title>
     <link rel="stylesheet" href="./styles/styles.css">
 </head>
+
 <body>
 
-    <nav>
+    <header>
         <div class="nav_bar">
-            <img src="./images/Logo.png" alt="" class="logo">
-            <button>Entrar</button> 
-
+            <img src="./images/Logo+nome.png" alt="" class="logo">
+            <div class="botoesD areanav">
+                <a class="entrarb" href="./index.html">Voltar</a>
+            </div>
         </div>
-    </nav>
+    </header>
 
     <div class="cronometro-content">
 
-        <div class="box">
+        <div class="cronometroBox">
             <h1>timer</h1>
-            <p>00:00</p>
-            <button onclick="iniciar()">Iniciar</button>
+            <p id="timer">00:00.000</p>
+            <div class="botoes">
+                <button onclick="iniciar()">Iniciar</button>
+                <button onclick="parar()">Parar</button>
+            </div>
+        </div>
+        <div class="lista" id="lista">
+
         </div>
 
     </div>
-    
+
 </body>
 
 <script>
-    
+    let segundos = 0;
+    let minutos = 0;
+    let dMilissegundos = 0;
+    let intervalo;
+    let tempoInicio;
+    let historicoTempos = []
+    let timerDisplay = ""
 
-    function teste() {
-        console.log('testando...')
+function iniciar() {
+    timerDisplay = ""
+    tempoInicio = Date.now();  
+
+    intervalo = setInterval(function () {
+        let tempoPassado = Date.now() - tempoInicio;  
+        
+        let minutos = Math.floor(tempoPassado / 60000);
+        let segundos = Math.floor((tempoPassado % 60000) / 1000);
+        let dMilissegundos = Math.floor((tempoPassado % 1000) / 100); 
+
+        if (segundos < 10 && minutos < 10) {
+                timerDisplay = `0${minutos}:0${segundos}`
+            } else if (segundos < 10) {
+                timerDisplay = `${minutos}:0${segundos}`
+            } else if (minutos < 10) {
+                timerDisplay = `0${minutos}:${segundos}`
+            } else {
+                timerDisplay = `${minutos}:${segundos}`
+            }
+                timerDisplay += `.${dMilissegundos}`
+
+                timer.innerHTML = timerDisplay
+    }, 100);
+
+
+}
+
+    function parar() {
+        let mensagem = ""
+        clearInterval(intervalo);
+        historicoTempos.push(timerDisplay)
+
+        for (let i = historicoTempos.length - 1; i >= 0 ;i--) {
+            mensagem += `${i+1}° - ${historicoTempos[i]} <br>`
+        }
+        lista.innerHTML = mensagem
     }
-
-    setInterval(teste, 1000)
 </script>
 
 </html>

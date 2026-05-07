@@ -1,4 +1,10 @@
 .body-index {
+    margin: 0;
+}
+
+h1 {
+    margin: 0px;
+    padding: 0px;
 }
 
 /*      Primeira sessão     */
@@ -57,35 +63,136 @@
 
 .segundasessão {
     display: flex;
+    justify-content: center;
     height: 100vh;
-    background-color: rgb(12, 12, 235);
+    background-color: rgb(0, 0, 0);
 }
 
 .linhaDoTempo {
     margin-left: 1px solid white;
 }
 
-.titulo-sessaoCronometro {
-    color: white;
+.box-segundasessao {
+    display: flex;
+    width: 100%;
+    height: 60vh;
+    margin: 0px 35px;
+    margin-top: 85px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 40px 0px 40px 40px;
+    background-color: white;
+    border-radius: 29px;
+    color: black;
     font-family: 'Miletus Grotesk',sans-serif;
+    overflow: hidden;
+
 }
 
-.titulo-sessaoCronometro h1{
-    font-size: 30px;
-    color: white;
+.box-segundasessao h1{
+    border-bottom: 2px solid black;
+    padding-bottom: 20px;
+    font-size: 2.3rem;
+    color: black;
     font-weight: bold;
-    font-family: ;
-    margin-left: 30px;
+}
+
+.box-segundasessao p {
+    color: black;
+    font-size: 20px;
+    width: 550px;
     margin-top: 50px;
 }
-
-.titulo-sessaoCronometro p {
-    color: white;
-    font-size: 20px;
-    width: 50px;
-    
+.box-segundasessao img {
+    width: 50%;
 }
 
+.textos-segundasessao {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    margin-top: 5%;
+}
+
+.textos-segundasessao p{
+    margin-top: 14%;
+}
+
+.terceirasessao {
+    display: flex;
+    justify-content: center;
+    height: max-content;
+    background-color: rgb(0, 0, 0);
+}
+
+.box-terceirasessao {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: max-content;
+    margin: 0px 35px;
+    margin-top: 85px;
+    padding: 40px 0px 40px 40px;
+    background-color: rgb(2, 2, 2);
+    border: 1px solid white;
+    border-radius: 29px;
+    color: white;
+    font-family: 'Miletus Grotesk',sans-serif;
+    overflow: hidden;
+}
+.box-terceirasessao h1 {
+    border-left: 1px solid white;
+    padding-left: 15px;
+}
+
+.box-terceirasessao img {
+    width: 700px;
+    border-radius: 29px;
+}
+
+.listaT {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 300px;
+    justify-content: center;
+    width: 100%;
+    margin-top: 300px;
+    margin-bottom: 300px;
+}
+
+.cronometro {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 100px;
+}
+
+.cronometro p {
+    width: 600px;
+    padding: 50px;
+}
+
+.sobremim {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 300px;
+    justify-content: center;
+    width: 100%;
+}
+
+.sobremim img {
+    height: 700px;
+    width: 550px;
+}
+
+.sobremim-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 100px;
+}
 
 
 

@@ -1,0 +1,92 @@
+.body-index {
+}
+
+/*      Primeira sessão     */
+
+.primeirasessao {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100vh;
+    background-color: rgb(0, 0, 0);
+    margin-top: 0px;
+    border-bottom: solid 1px white;
+}
+
+.primeiratela {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10vw;
+}
+
+.backgroundHome {
+    height: 50vh;
+    border-radius: 935px;
+    margin-right: 60px;
+    z-index: 0;
+}
+
+.tituloP {
+    font-size: 56px;
+    color: white;
+}
+
+.titulos {
+    color: white;
+    font-size: 20px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.começarB {
+    font-size: 23px;
+    background-color: white;
+    margin-top: 90px;
+    padding: 18px;
+    border-radius: 45px;
+}
+
+.separaçao {
+    height: 80px;
+    background-color: black;
+}
+
+/*      Segunda Sessão        */
+
+.segundasessão {
+    display: flex;
+    height: 100vh;
+    background-color: rgb(12, 12, 235);
+}
+
+.linhaDoTempo {
+    margin-left: 1px solid white;
+}
+
+.titulo-sessaoCronometro {
+    color: white;
+    font-family: 'Miletus Grotesk',sans-serif;
+}
+
+.titulo-sessaoCronometro h1{
+    font-size: 30px;
+    color: white;
+    font-weight: bold;
+    font-family: ;
+    margin-left: 30px;
+    margin-top: 50px;
+}
+
+.titulo-sessaoCronometro p {
+    color: white;
+    font-size: 20px;
+    width: 50px;
+    
+}
+
+
+
+
+

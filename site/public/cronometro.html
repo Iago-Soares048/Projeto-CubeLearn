@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="./styles/styles.css">
 </head>
 
-<body onkeydown="teste(event)">
+<body onkeyup="soltou(event)" onkeydown="apertou(event)">
 
     <header>
         <div class="nav_bar">
@@ -30,15 +30,37 @@
             </div>
         </div>
     </div>
-    <div class="listabox">       
-    <div class="lista" id="lista"></div>
+    <div class="listabox">
+        <div id="div_mensagem"></div>
+        <div class="lista" id="lista"></div>
     </div>
 
 </body>
 
 <script>
-    function teste(e) {
-        console.log("teste", e);
+    let parou = false
+
+    function soltou(e) {
+        if (parou) {
+            parou = false
+            return;
+        }
+
+        console.log("soltou", e);
+        div_mensagem.innerHTML = `Tecla pressionada ${e.code}`
+
+        if (!intervalo && e.code == "Space") {
+            console.log("entrou")
+            iniciar()
+        }
+    }
+
+    function apertou(e) {
+
+        if (intervalo && e.code == "Space") {
+            parar()
+            parou = true
+        }
     }
 
     let segundos = 0;
@@ -49,18 +71,18 @@
     let historicoTempos = []
     let timerDisplay = ""
 
-function iniciar() {
-    timerDisplay = ""
-    tempoInicio = Date.now();  
+    function iniciar() {
+        timerDisplay = ""
+        tempoInicio = Date.now();
 
-    intervalo = setInterval(function () {
-        let tempoPassado = Date.now() - tempoInicio;  
-        
-        let minutos = Math.floor(tempoPassado / 60000);
-        let segundos = Math.floor((tempoPassado % 60000) / 1000);
-        let dMilissegundos = Math.floor((tempoPassado % 1000) / 100); 
+        intervalo = setInterval(function () {
+            let tempoPassado = Date.now() - tempoInicio;
 
-        if (segundos < 10 && minutos < 10) {
+            let minutos = Math.floor(tempoPassado / 60000);
+            let segundos = Math.floor((tempoPassado % 60000) / 1000);
+            let dMilissegundos = Math.floor((tempoPassado % 1000) / 100);
+
+            if (segundos < 10 && minutos < 10) {
                 timerDisplay = `0${minutos}:0${segundos}`
             } else if (segundos < 10) {
                 timerDisplay = `${minutos}:0${segundos}`
@@ -69,27 +91,64 @@ function iniciar() {
             } else {
                 timerDisplay = `${minutos}:${segundos}`
             }
-                timerDisplay += `.${dMilissegundos}`
+            timerDisplay += `.${dMilissegundos}`
 
-                timer.innerHTML = timerDisplay
-    }, 100);
+            timer.innerHTML = timerDisplay
+        }, 100);
 
 
-}
+    }
 
     function parar() {
         clearInterval(intervalo);
+        intervalo = null
         historicoTempos.push(timerDisplay)
+
+
+        inserir(timerDisplay)
         exibir()
 
-        
+
+    }
+
+    function inserir(tempoInserir) {
+        let tempoInserirLet = tempoInserir
+
+        fetch("/usuarios/inserir", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                // crie um atributo que recebe o valor recuperado aqui
+                // Agora vá para o arquivo routes/usuario.js
+
+                tempoServer: tempoInserirLet,
+            }),
+        })
+            .then(function (resposta) {
+                console.log("resposta: ", resposta);
+
+                if (resposta.ok) {
+                    cardErro.style.display = "block";
+                    /* 
+                                   mensagem_erro.innerHTML =
+                                        "Cadastro realizado com sucesso! Redirecionando para tela de Login..."; */
+                } else {
+                    throw "Houve um erro ao tentar realizar o cadastro do tempo!";
+                }
+            })
+            .catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+                // finalizarAguardar();
+            });
     }
 
     function exibir() {
         let mensagem = ""
 
-        for (let i = historicoTempos.length - 1; i >= 0 ;i--) {
-            mensagem += `${i+1}° - ${historicoTempos[i]} <br>`
+        for (let i = historicoTempos.length - 1; i >= 0; i--) {
+            mensagem += `${i + 1}° - ${historicoTempos[i]} <br>`
         }
         lista.innerHTML = mensagem
     }

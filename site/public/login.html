@@ -52,9 +52,6 @@
            // finalizarAguardar();
             return false;
         }
-        else {
-            setInterval(5000)
-        }
 
         console.log("FORM LOGIN: ", emailVar);
         console.log("FORM SENHA: ", senhaVar);
@@ -80,6 +77,8 @@
                     sessionStorage.EMAIL_USUARIO = json.email;
                     sessionStorage.NOME_USUARIO = json.nome;
                     sessionStorage.ID_USUARIO = json.id
+
+                    sessionStorage
 
                     setTimeout(function () {
                         window.location = "cronometro.html";

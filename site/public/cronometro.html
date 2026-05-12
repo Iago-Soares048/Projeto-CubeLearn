@@ -5,40 +5,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cronometro</title>
-    <link rel="stylesheet" href="./styles/styles.css">
+    <link rel="stylesheet" href="./styles/cronometro.css">
 </head>
 
-<body onkeyup="soltou(event)" onkeydown="apertou(event)">
+<body onkeyup="soltou(event)" onkeydown="apertou(event)" onload="carregou()">
 
     <header>
         <div class="nav_bar">
             <img src="./images/Logo+nome.png" alt="" class="logo">
             <div class="botoesD areanav">
-                <a class="entrarb" href="./index.html">Voltar</a>
+                <a class="entrarb" href="./index.html">Home</a>
+                <a class="entrarb" href="./dash.html">DashBoard</a>
             </div>
         </div>
     </header>
+    
+    <section class="sessao-pagcronometro">
+        <div class="listabox">
+            <div class="lista" id="lista"></div>
+        </div>
+        <div class="cronometro-content">
 
-    <div class="cronometro-content">
-
-        <div class="cronometroBox">
-            <h1>timer</h1>
-            <p id="timer">00:00.000</p>
-            <div class="botoes">
-                <button onclick="iniciar()">Iniciar</button>
-                <button onclick="parar()">Parar</button>
+            <div class="cronometroBox">
+                <p class="timer numbers" id="timer">00:00.0</p>
+                <div class="medias">
+                    <span>AVG12: 432</span>
+                    <span>AVG5: 432</span>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="listabox">
-        <div id="div_mensagem"></div>
-        <div class="lista" id="lista"></div>
-    </div>
+        </div>
+    </section>
 
 </body>
 
 <script>
     let parou = false
+    function carregou() {
+        carregarLista()
+    }
+
+
 
     function soltou(e) {
         if (parou) {
@@ -47,7 +54,6 @@
         }
 
         console.log("soltou", e);
-        div_mensagem.innerHTML = `Tecla pressionada ${e.code}`
 
         if (!intervalo && e.code == "Space") {
             console.log("entrou")
@@ -82,15 +88,19 @@
             let segundos = Math.floor((tempoPassado % 60000) / 1000);
             let dMilissegundos = Math.floor((tempoPassado % 1000) / 100);
 
-            if (segundos < 10 && minutos < 10) {
-                timerDisplay = `0${minutos}:0${segundos}`
+            if (minutos == 0) {
+                timerDisplay = `${segundos}`
             } else if (segundos < 10) {
                 timerDisplay = `${minutos}:0${segundos}`
-            } else if (minutos < 10) {
-                timerDisplay = `0${minutos}:${segundos}`
             } else {
                 timerDisplay = `${minutos}:${segundos}`
+
             }
+
+            if (tempoPassado < 60000) {
+
+            }
+
             timerDisplay += `.${dMilissegundos}`
 
             timer.innerHTML = timerDisplay
@@ -107,6 +117,8 @@
 
         inserir(timerDisplay)
         exibir()
+        carregarLista()
+
 
 
     }
@@ -130,7 +142,7 @@
                 console.log("resposta: ", resposta);
 
                 if (resposta.ok) {
-                    cardErro.style.display = "block";
+                    console.log(resposta)
                     /* 
                                    mensagem_erro.innerHTML =
                                         "Cadastro realizado com sucesso! Redirecionando para tela de Login..."; */
@@ -152,6 +164,95 @@
         }
         lista.innerHTML = mensagem
     }
+
+    function carregarLista() {
+
+        // Aqui seria a função que obteria os dados do banco de dados
+        // No caso, aqui você colocaria o fetch que teria o endereço da sua rota que você criou na pasta /routes e chamaria a função plotarGraficoLinha nessa função. Exemplo:
+
+        // fetch('/obterDados')
+        // .then(function(response){
+        //   return response.json();
+        // })
+        // .then(function(data){
+        //   plotarGraficoLinha(data);
+        //   plotarGraficoBarra(data);
+        // })
+        // .catch(function(err){
+        //   console.log(err);
+        // })
+
+        // Como eu não configurei as rotas, eu criei um array com os dados para simular a obtenção dos dados
+
+
+        fetch("/usuarios/puxarDados", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                emailServer: sessionStorage.EMAIL_USUARIO,
+            })
+        }).then(function (resposta) {
+            console.log("ESTOU NO THEN DO entrar()!")
+
+            if (resposta.ok) {
+                resposta.json().then(json => {
+                    teste = json;
+
+                    dados = []
+                    for (let i = 0; i < teste.length; i++) {
+                        dados.push({
+                            Usuario: json[i].usuario,
+                            Horario: json[i].horaDoRegistro,
+                            Tempo: json[i].tempoSolucao,
+                            Modelo: json[i].modelo
+                        })
+                    }
+
+                    let dia = teste[0].horaDoRegistro
+                    let diaF = dia.substring(8, 10)
+                    let mesF = dia.substring(5, 7)
+                    let anoF = dia.substring(0, 4)
+
+
+                    for (let i = dados.length -1; i >= 0; i--) {
+                        lista.innerHTML += `<div class="linhaLista">
+                        Desc:${dados[i].Modelo}<br>
+                        Hora em que foi registrado:${dados[i].Horario}<br>
+                        Tempo de solucao:${dados[i].Tempo}<br> <hr>
+                        </div>
+                        `
+                    }
+                    /*          Usuario:${teste[0].usuario}<br> */
+                    console.log(`é esse que eu quero ${json}`);
+                    console.log(JSON.stringify(json));
+                })
+
+
+            } else {
+
+
+                console.log("Houve um erro ao tentar realizar o login!");
+
+                resposta.text().then(texto => {
+                    console.error(texto);
+                    // finalizarAguardar(texto);
+                });
+            }
+
+        }).catch(function (erro) {
+            console.log(erro);
+        })
+
+
+        // Chamando a função para plotar o gráfico de linha com os dados
+        // Chamando a função para plotar o gráfico de barra com os dados
+
+
+        console.log(`teste:`)
+    }
+
 </script>
 
 </html>

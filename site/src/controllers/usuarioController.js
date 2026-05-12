@@ -1,6 +1,6 @@
 var usuarioModel = require("../models/usuarioModel");
 
-function cadastrarTemp(temp) {
+function cadastrarTemp(req, res) {
     // Crie uma variável que vá recuperar os valores do arquivo cadastro.html
     var tempo = req.body.tempoServer;
 
@@ -67,6 +67,46 @@ function autenticar(req, res) {
 
 }
 
+function puxarDados(req, res) {
+    var email = req.body.emailServer;
+
+    if (email == undefined) {
+        res.status(400).send("Seu email está undefined!");
+    }else {
+
+        usuarioModel.puxarDados(email)
+
+            .then(
+                function (resultadoAutenticar) {
+                    console.log(`\nResultados encontrados: ${resultadoAutenticar.length}`);
+                    console.log(`Resultados: ${JSON.stringify(resultadoAutenticar)}`); // transforma JSON em String
+
+                    if (resultadoAutenticar.length > 0) {
+
+                    const dadosFormatados = resultadoAutenticar.map(registro => ({
+                        horaDoRegistro: new Date(registro.horaDoRegistro).toLocaleString("pt-BR"),
+                        tempoSolucao: registro.tempoSolucao,
+                        estilo: registro.estilo,
+                        usuario: registro.usuario,
+                        modelo: registro.modelo,
+                        solucaoDescricao: registro.solucaoDescricao
+                    }));
+
+                    res.json(dadosFormatados);
+
+                }
+                }
+            ).catch(
+                function (erro) {
+                    console.log(erro);
+                    console.log("\nHouve um erro ao realizar o login! Erro: ", erro.sqlMessage);
+                    res.status(500).json(erro.sqlMessage);
+                }
+            );
+    }
+
+}
+
 function cadastrar(req, res) {
     // Crie uma variável que vá recuperar os valores do arquivo cadastro.html
     var nome = req.body.nomeServer;
@@ -104,5 +144,6 @@ function cadastrar(req, res) {
 module.exports = {
     autenticar,
     cadastrar,
-    cadastrarTemp
+    cadastrarTemp,
+    puxarDados
 }

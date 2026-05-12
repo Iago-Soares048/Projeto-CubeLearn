@@ -54,7 +54,7 @@ foreign key (idEstilo) references estiloDeSolucao(idEstilo)
 );
 
 create table registroDeTempo(
-idRegistro int,
+idRegistro int auto_increment,
 horaDoRegistro timestamp,
 tempoSolucao varchar(45),
 idEstilo int,

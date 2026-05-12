@@ -1,5 +1,17 @@
 var database = require("../database/config")
 
+function puxarDados(email) {
+    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function entrar(): ", email)
+    var instrucaoSql = `
+        select Usuario.nome as usuario, Cubo.modelo as modelo, horaDoRegistro, tempoSolucao, Estilo.estilo, Estilo.solucaoDescricao from registroDeTempo
+ join estiloDeSolucao as Estilo on registroDeTempo.idEstilo = Estilo.idEstilo
+ join cubo as Cubo on Estilo.idCubo = Cubo.idCubo
+ join Usuarios as Usuario on Cubo.idUsuario = Usuario.idUsuario;
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 function autenticar(email, senha) {
     console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function entrar(): ", email, senha)
     var instrucaoSql = `
@@ -23,12 +35,12 @@ function cadastrar(nome, email, senha,) {
 }
 
 function cadastrarTemp(tempo) {
-    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrar():", nome, email, senha);
+    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrar():", tempo);
     
     // Insira exatamente a query do banco aqui, lembrando da nomenclatura exata nos valores
     //  e na ordem de inserção dos dados.
     var instrucaoSql = `
-        INSERT INTO registroDeTempo (tempoSolucao) VALUES ('${tempo}');
+        INSERT INTO registroDeTempo VALUES (DEFAULT, DEFAULT, '${tempo}', 1);
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
@@ -36,5 +48,7 @@ function cadastrarTemp(tempo) {
 
 module.exports = {
     autenticar,
-    cadastrar
+    cadastrar,
+    cadastrarTemp,
+    puxarDados
 };

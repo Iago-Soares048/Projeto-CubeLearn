@@ -8,12 +8,16 @@ router.post("/cadastrar", function (req, res) {
     usuarioController.cadastrar(req, res);
 })
 
-router.post("/inserir", function (temp) {
-    usuarioController.cadastrarTemp(temp);
+router.post("/inserir", function (req, res) {
+    usuarioController.cadastrarTemp(req, res);
 })
 
 router.post("/autenticar", function (req, res) {
     usuarioController.autenticar(req, res);
+});
+
+router.post("/puxarDados", function (req, res) {
+    usuarioController.puxarDados(req, res);
 });
 
 module.exports = router;

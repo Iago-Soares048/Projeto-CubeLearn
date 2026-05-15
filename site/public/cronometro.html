@@ -19,18 +19,33 @@
             </div>
         </div>
     </header>
-    
-    <section class="sessao-pagcronometro">
-        <div class="listabox">
-            <div class="lista" id="lista"></div>
+
+    <section class="sessao-pagcronometro" id="sessaopagcronometro">
+
+        <div class="listabox" id="listabox">
+            <div class="dadosListaBox">
+                <h1 class="cuboPag" id="cuboPag"></h1>
+                <span>AVG12</span>
+                <span>AVG5</span>
+            </div>
+
+            <div class="lista" id="lista">
+                <div class="titulosLista">
+                    <span>Horario</span>
+                    <span>Tempo da solve</span>
+                </div>
+                <div class="linhaLista">
+                </div>
+            </div>
         </div>
+
         <div class="cronometro-content">
 
             <div class="cronometroBox">
                 <p class="timer numbers" id="timer">00:00.0</p>
-                <div class="medias">
-                    <span>AVG12: 432</span>
-                    <span>AVG5: 432</span>
+                <div class="medias" id="medias">
+                    <span>AVG12:</span>
+                    <span>AVG5:</span>
                 </div>
             </div>
         </div>
@@ -41,7 +56,13 @@
 
 <script>
     let parou = false
+    let dados = []
+    let tempoAtual = "";
+    let media = 0
+    let media12 = 0
     function carregou() {
+
+
         carregarLista()
     }
 
@@ -80,6 +101,18 @@
     function iniciar() {
         timerDisplay = ""
         tempoInicio = Date.now();
+        sessaopagcronometro.innerHTML = `<div class="cronometro-content">
+
+            <div class="cronometroBox">
+                <p class="timer numbers" id="timer">00:00.0</p>
+                <div class="medias">
+                    <span>AVG12: 432</span>
+                    <span>AVG5: 432</span>
+                </div>
+            </div>
+        </div>
+        </div>`
+
 
         intervalo = setInterval(function () {
             let tempoPassado = Date.now() - tempoInicio;
@@ -102,24 +135,55 @@
             }
 
             timerDisplay += `.${dMilissegundos}`
-
             timer.innerHTML = timerDisplay
+            tempoAtual = timerDisplay
         }, 100);
 
 
     }
 
     function parar() {
+
+
+        sessaopagcronometro.innerHTML = `
+        <div class="listabox" id="listabox">
+            <div class="dadosListaBox">
+                <h1 class="cuboPag" id="cuboPag"></h1>
+                <span>AVG12</span>
+                <span>AVG5</span>
+            </div>
+
+            <div class="lista" id="lista">
+                <div class="titulosLista">
+                    <span>Horario</span>
+                    <span>Tempo da solve</span>
+                </div>
+                <div class="linhaLista">
+                </div>
+            </div>
+        </div>
+
+        <div class="cronometro-content">
+
+            <div class="cronometroBox">
+                <p class="timer numbers" id="timer">${tempoAtual}</p>
+                <div class="medias">
+                    <span>AVG5: ${media}}</span>
+                    <span>AVG12: ${media12} </span>
+                </div>
+            </div>
+        </div>
+        </div>
+        `
         clearInterval(intervalo);
         intervalo = null
         historicoTempos.push(timerDisplay)
 
 
         inserir(timerDisplay)
-        exibir()
-        carregarLista()
-
-
+        setTimeout(() => {
+            carregarLista()
+        }, 7);
 
     }
 
@@ -156,14 +220,7 @@
             });
     }
 
-    function exibir() {
-        let mensagem = ""
 
-        for (let i = historicoTempos.length - 1; i >= 0; i--) {
-            mensagem += `${i + 1}° - ${historicoTempos[i]} <br>`
-        }
-        lista.innerHTML = mensagem
-    }
 
     function carregarLista() {
 
@@ -181,10 +238,10 @@
         // .catch(function(err){
         //   console.log(err);
         // })
-
+        
         // Como eu não configurei as rotas, eu criei um array com os dados para simular a obtenção dos dados
-
-
+        
+        
         fetch("/usuarios/puxarDados", {
             method: "POST",
             headers: {
@@ -195,11 +252,11 @@
             })
         }).then(function (resposta) {
             console.log("ESTOU NO THEN DO entrar()!")
-
+            
             if (resposta.ok) {
                 resposta.json().then(json => {
                     teste = json;
-
+                    
                     dados = []
                     for (let i = 0; i < teste.length; i++) {
                         dados.push({
@@ -209,21 +266,49 @@
                             Modelo: json[i].modelo
                         })
                     }
-
-                    let dia = teste[0].horaDoRegistro
-                    let diaF = dia.substring(8, 10)
-                    let mesF = dia.substring(5, 7)
-                    let anoF = dia.substring(0, 4)
-
-
-                    for (let i = dados.length -1; i >= 0; i--) {
-                        lista.innerHTML += `<div class="linhaLista">
-                        Desc:${dados[i].Modelo}<br>
-                        Hora em que foi registrado:${dados[i].Horario}<br>
-                        Tempo de solucao:${dados[i].Tempo}<br> <hr>
-                        </div>
+                                        
+                    for (let i = dados.length - 1; i >= 0; i--) {
+                        lista.innerHTML += `<div class="linhaLista"> 
+                    <span>${dados[i].Horario.substring(12, dados[i].Horario.length)}</span>
+                    <span>${dados[i].Tempo}</span>
                         `
                     }
+
+                    media = 0
+                    media12 = 0
+
+
+                    for (let i = dados.length - 1; i >= 0 && i > dados.length - 13; i--) {
+                        if (i == dados.length - 13) {
+                            console.log(`media5: ${media}`)
+                            media += converterTempoParaNumero(dados[i].Tempo)
+                            media12 += converterTempoParaNumero(dados[i].Tempo)
+                        } else {
+                            media12 += converterTempoParaNumero(dados[i].Tempo)
+                        }
+                    }
+
+                    if (!isNaN(media)) {
+                        media = formatarTempo( media / 5)
+                    } else {
+                        media = 0
+                    }
+
+                    if (!isNaN(media12)) {
+                        media12 = formatarTempo( media12 / 12)
+                    } else {
+                        media12 = 0
+                    }
+
+
+
+                        medias.innerHTML = `
+                    <span>AVG5: ${media}</span>
+                    <span>AVG12: ${media12} </span>`
+                        cuboPag.innerHTML += `<div class="dadoLista">Cubo:${dados[0].Modelo}</div>`
+                    
+
+
                     /*          Usuario:${teste[0].usuario}<br> */
                     console.log(`é esse que eu quero ${json}`);
                     console.log(JSON.stringify(json));
@@ -252,6 +337,27 @@
 
         console.log(`teste:`)
     }
+
+    function converterTempoParaNumero(tempo) {
+    if (tempo.includes(':')) {
+      let [min, seg] = tempo.split(":");
+    return (parseInt(min) * 60) + parseFloat(seg);
+  } else {
+      return parseFloat(tempo);
+    }
+  }
+
+    function formatarTempo(segundosTotais) {
+    let minutos = Math.floor(segundosTotais / 60);
+    let segundos = (segundosTotais % 60).toFixed(1);
+
+    if (segundos < 10) {
+      segundos = "0" + segundos;
+    }
+    
+
+    return `${String(minutos).padStart(2, "0")}:${segundos}`;
+  }
 
 </script>
 

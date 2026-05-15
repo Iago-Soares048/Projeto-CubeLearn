@@ -1,5 +1,14 @@
+html {
+    scroll-behavior: smooth;
+}
+
 .body-index {
     margin: 0;
+    background-image: url(../images/background.png);
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 h1 {
@@ -10,11 +19,14 @@ h1 {
 /*      Primeira sessão     */
 
 .primeirasessao {
+    width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    gap: 260px;
+    overflow: hidden;
     align-items: center;
     height: 100vh;
-    background-color: rgb(0, 0, 0);
+    background-color: #000000;
     margin-top: 0px;
     border-bottom: solid 1px white;
 }
@@ -29,13 +41,13 @@ h1 {
 
 .backgroundHome {
     height: 50vh;
-    border-radius: 935px;
-    margin-right: 60px;
+    margin-right: 160px;
     z-index: 0;
 }
 
 .tituloP {
-    font-size: 56px;
+    font-size: 50px;
+    width: max-content;
     color: white;
 }
 
@@ -48,7 +60,7 @@ h1 {
 
 .começarB {
     font-size: 23px;
-    background-color: white;
+    background-color: rgb(29, 211, 29);
     margin-top: 90px;
     padding: 18px;
     border-radius: 45px;
@@ -56,7 +68,6 @@ h1 {
 
 .separaçao {
     height: 80px;
-    background-color: black;
 }
 
 /*      Segunda Sessão        */
@@ -64,8 +75,8 @@ h1 {
 .segundasessão {
     display: flex;
     justify-content: center;
+    align-items: center;
     height: 100vh;
-    background-color: rgb(0, 0, 0);
 }
 
 .linhaDoTempo {
@@ -77,11 +88,10 @@ h1 {
     width: 100%;
     height: 60vh;
     margin: 0px 35px;
-    margin-top: 85px;
     align-items: center;
     justify-content: space-between;
     padding: 40px 0px 40px 40px;
-    background-color: white;
+    background-color: rgb(221, 221, 224);
     border-radius: 29px;
     color: black;
     font-family: 'Miletus Grotesk',sans-serif;
@@ -122,7 +132,6 @@ h1 {
     display: flex;
     justify-content: center;
     height: max-content;
-    background-color: rgb(0, 0, 0);
 }
 
 .box-terceirasessao {
@@ -131,9 +140,10 @@ h1 {
     width: 100%;
     height: max-content;
     margin: 0px 35px;
-    margin-top: 85px;
-    padding: 40px 0px 40px 40px;
-    background-color: rgb(2, 2, 2);
+    margin-top: 140px;
+    margin-bottom: 85px;
+    padding: 40px 0px 40px 0px;
+    background-color: rgba(19, 19, 19, 0.904);
     border: 1px solid white;
     border-radius: 29px;
     color: white;
@@ -141,8 +151,9 @@ h1 {
     overflow: hidden;
 }
 .box-terceirasessao h1 {
-    border-left: 1px solid white;
-    padding-left: 15px;
+    padding: 0px 15px;
+    font-size: 58px;
+    width: max-content;
 }
 
 .box-terceirasessao img {
@@ -169,8 +180,15 @@ h1 {
 }
 
 .cronometro p {
+    text-indent: 40px;
+    font-size: 18px;
     width: 600px;
     padding: 50px;
+}
+
+.cronometro h1 {
+    border-left: 1px solid white;
+    font-size: 40px;
 }
 
 .sobremim {
@@ -192,8 +210,108 @@ h1 {
     align-items: center;
     justify-content: center;
     gap: 100px;
+    width: 100%;
+
+}
+
+.sobremim-texto {
+    display: block;
+    text-indent: 40px;
 }
 
 
+            /* Quarta sessao */
+
+
+.quartasessão {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.box-quartasessao {
+    display: flex;
+    width: 100%;
+    height: 70vh;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 0px 40px 40px;
+    background-color: rgb(221, 221, 224);
+    color: black;
+    font-family: 'Miletus Grotesk',sans-serif;
+    overflow: hidden;
+
+}
+
+.box-quartasessao h1{
+    border-bottom: 2px solid black;
+    padding-bottom: 20px;
+    font-size: 2.3rem;
+    color: black;
+    font-weight: bold;
+}
+
+.box-quartasessao p {
+    color: black;
+    font-size: 20px;
+    width: 550px;
+    margin-top: 50px;
+}
+.box-quartasessao img {
+    width: 50%;
+}
+
+.textos-quartasessao {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    margin-top: 5%;
+}
+
+.textos-quartasessao p{
+    margin-top: 14%;
+}
+
+            /* Quinta sessao */
+
+
+.quintasessao {
+    display: flex;
+    justify-content: center;
+    height: max-content;
+}
+
+.box-quintasessao {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: max-content;
+    margin: 0px 35px;
+    margin-top: 85px;
+    margin-bottom: 85px;
+    padding: 40px;
+    background-color: #353434c0;
+    border: 1px solid white;
+    border-radius: 29px;
+    color: white;
+    font-family: 'Miletus Grotesk',sans-serif;
+    overflow: hidden;
+}
+.box-quintasessao h1 {
+    border-left: 1px solid white;
+    padding-left: 15px;
+    font-size: 50px;
+    margin-bottom: 60px;
+}
+
+.sobremim-texto h1 {
+    font-size: 40px;
+}
+
+.box-quintasessao img {
+    width: 700px;
+    border-radius: 29px;
+}
 
 

@@ -31,12 +31,7 @@
     <section class="historico">
     <h1 class="titulo-secao">Histórico de Tempos</h1>
 
-    <div id="lista_historico">
-      <div class="solve-item">Solve #1 - 00:14.52</div>
-      <div class="solve-item">Solve #2 - 00:13.98</div>
-      <div class="solve-item">Solve #3 - 00:15.10</div>
-      <div class="solve-item">Solve #4 - 00:12.87</div>
-    </div>
+    <div id="lista_historico"></div>
   </section>
 
   <section class="kpi-section">
@@ -129,6 +124,7 @@
           teste = json;
 
           dados = []
+     
           for (let i = 0; i < teste.length; i++) {
             dados.push({
               Horario: json[i].horaDoRegistro,
@@ -136,6 +132,7 @@
             })
           }
           plotarGraficoLinha(dados);
+          plotarHistorico(dados);
 
           let dia = teste[0].horaDoRegistro
           let diaF = dia.substring(8, 10)
@@ -143,18 +140,6 @@
           let anoF = dia.substring(0, 4)
 
 
-          div_mensagem.innerHTML = `
-          Hora em que foi cronometrado:${teste[1].horaDoRegistro}<br>
-          Estilo:${teste[0].estilo}<br>
-          Tempo de solucao:${teste[0].tempoSolucao}<br>
-          Desc:${teste[0].solucaoDescricao}<br>
-          Usuario:${teste[0].usuario}<br>
-          Desc:${teste[0].modelo}<br>
-          Dia: ${dia} <br>
-          DiaF: ${diaF}/${mesF}/${anoF}
-          `
-          console.log(`é esse que eu quero ${json}`);
-          console.log(JSON.stringify(json));
         })
 
 
@@ -182,8 +167,12 @@
   }
 
   function converterTempoParaNumero(tempo) {
-    let [min, seg] = tempo.split(":");
+    if (tempo.includes(':')) {
+      let [min, seg] = tempo.split(":");
     return (parseInt(min) * 60) + parseFloat(seg);
+  } else {
+      return parseFloat(tempo);
+    }
   }
 
 
@@ -194,6 +183,7 @@
     if (segundos < 10) {
       segundos = "0" + segundos;
     }
+    
 
     return `${String(minutos).padStart(2, "0")}:${segundos}`;
   }
@@ -252,6 +242,13 @@
     });
   }
 
+  function plotarHistorico(dados) {
+    let contador = 1
+    for (let i = dados.length -1; i >= 0 ; i--) {
+      lista_historico.innerHTML += `<div class="solve-item">Solve ${i + 1}# - ${dados[i].Tempo} </div>`
+      contador++
+    }
+  }
 
   console.log(dados)
 </script>

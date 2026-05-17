@@ -106,6 +106,10 @@ header {
     font-size: 70px;
 }
 
+.rodando {
+    font-size: 120px;
+}
+
 @font-face {
   font-family: 'Digital7';
   src: url('digital-7.ttf'); /* Caminho da fonte */

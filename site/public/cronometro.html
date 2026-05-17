@@ -25,8 +25,9 @@
         <div class="listabox" id="listabox">
             <div class="dadosListaBox">
                 <h1 class="cuboPag" id="cuboPag"></h1>
-                <span>AVG12</span>
-                <span>AVG5</span>
+                <span class="blocosLista" id="avg5span">AVG5:</span>
+                <span class="blocosLista" id="avg12span">AVG12: </span>
+                <span id="recordspan">Record</span>
             </div>
 
             <div class="lista" id="lista">
@@ -38,20 +39,20 @@
                 </div>
             </div>
         </div>
-
+        
         <div class="cronometro-content">
-
+            
             <div class="cronometroBox">
                 <p class="timer numbers" id="timer">00:00.0</p>
                 <div class="medias" id="medias">
-                    <span>AVG12:</span>
-                    <span>AVG5:</span>
+                    <span id="avg5span">AVG5:</span>
+                    <span id="avg12span">AVG12:</span>
                 </div>
             </div>
         </div>
         </div>
     </section>
-
+    
 </body>
 
 <script>
@@ -60,22 +61,23 @@
     let tempoAtual = "";
     let media = 0
     let media12 = 0
+    let record = 0
     function carregou() {
-
-
+        
+        
         carregarLista()
     }
-
-
-
+    
+    
+    
     function soltou(e) {
         if (parou) {
             parou = false
             return;
         }
-
+        
         console.log("soltou", e);
-
+        
         if (!intervalo && e.code == "Space") {
             console.log("entrou")
             iniciar()
@@ -83,13 +85,13 @@
     }
 
     function apertou(e) {
-
+        
         if (intervalo && e.code == "Space") {
             parar()
             parou = true
         }
     }
-
+    
     let segundos = 0;
     let minutos = 0;
     let dMilissegundos = 0;
@@ -97,19 +99,15 @@
     let tempoInicio;
     let historicoTempos = []
     let timerDisplay = ""
-
+    
     function iniciar() {
         timerDisplay = ""
         tempoInicio = Date.now();
         sessaopagcronometro.innerHTML = `<div class="cronometro-content">
-
+            
             <div class="cronometroBox">
-                <p class="timer numbers" id="timer">00:00.0</p>
-                <div class="medias">
-                    <span>AVG12: 432</span>
-                    <span>AVG5: 432</span>
+                <p class="timer numbers rodando" id="timer">00:00.0</p>
                 </div>
-            </div>
         </div>
         </div>`
 
@@ -149,8 +147,8 @@
         <div class="listabox" id="listabox">
             <div class="dadosListaBox">
                 <h1 class="cuboPag" id="cuboPag"></h1>
-                <span>AVG12</span>
-                <span>AVG5</span>
+                <span>AVG5: ${media} </span>
+                <span>AVG12: ${media12} </span>
             </div>
 
             <div class="lista" id="lista">
@@ -167,9 +165,10 @@
 
             <div class="cronometroBox">
                 <p class="timer numbers" id="timer">${tempoAtual}</p>
-                <div class="medias">
-                    <span>AVG5: ${media}}</span>
-                    <span>AVG12: ${media12} </span>
+                <div class="medias" id="medias">
+                    <span id="avg5span">AVG5: </span>
+                    <span id="avg12span">AVG12: </span>
+                    <span id="recordspan">Record: </span>
                 </div>
             </div>
         </div>
@@ -279,11 +278,12 @@
 
 
                     for (let i = dados.length - 1; i >= 0 && i > dados.length - 13; i--) {
-                        if (i == dados.length - 13) {
+                        if (i > dados.length - 6 && dados.length >= 5) {
                             console.log(`media5: ${media}`)
                             media += converterTempoParaNumero(dados[i].Tempo)
-                            media12 += converterTempoParaNumero(dados[i].Tempo)
-                        } else {
+                        }
+                        
+                        if (dados.length >= 12) {
                             media12 += converterTempoParaNumero(dados[i].Tempo)
                         }
                     }
@@ -300,18 +300,35 @@
                         media12 = 0
                     }
 
+                    record = dados[0].Tempo
+
+                    for (let i = 0; i < dados.length; i++) {
+                        let tempoPAtual = dados[i].Tempo;
+                        if (record > tempoPAtual) {
+                            record = tempoPAtual
+                        }
 
 
-                        medias.innerHTML = `
-                    <span>AVG5: ${media}</span>
+
+                        medias.innerHTML = `<span>AVG5: ${media}</span>
                     <span>AVG12: ${media12} </span>`
-                        cuboPag.innerHTML += `<div class="dadoLista">Cubo:${dados[0].Modelo}</div>`
-                    
+
+                        cuboPag.innerHTML = `<div class="dadoLista">Cubo:${dados[0].Modelo}</div>`
+
+                         avg5span.innerHTML = `AVG5: ${media}`
+                         avg12span.innerHTML = `AVG12: ${media12}`
+                         recordspan.innerHTML = `Record: ${record}`
+
 
 
                     /*          Usuario:${teste[0].usuario}<br> */
                     console.log(`é esse que eu quero ${json}`);
                     console.log(JSON.stringify(json));
+
+                    
+                    }
+
+
                 })
 
 

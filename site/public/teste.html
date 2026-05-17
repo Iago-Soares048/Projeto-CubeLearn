@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        .topo {
+    width: 300px;
+    background: #222;
+    color: white;
+    cursor: pointer;
+    padding: 20px;
+}
+
+.menu {
+    max-height: 0;
+    overflow: hidden;
+    background: #ff6600;
+    transition: max-height 0.1s linear;
+}
+
+.topo.aberto .menu {
+    max-height: 18px;
+}
+
+.outra {
+    width: 300px;
+    padding: 20px;
+    background: lightgray;
+    margin-top: 10px;
+}
+    </style>
+</head>
+<body>
+    <div class="topo" onclick="deslizar(this)">
+    Clique aqui
+    <div class="menu">
+        Conteúdo expansível
+    </div>
+    
+</div>
+
+
+<div class="outra">Outra div abaixo</div>
+<div class="outra">Mais conteúdo</div>
+
+    <div class="topo" onclick="deslizar(this)">
+    Clique aqui
+    <div class="menu">
+        Conteúdo expansível
+    </div>
+
+<script>
+    function deslizar(topo) {
+    if (!topo.className.includes("aberto")) {
+        topo.className += " aberto";
+    } else {
+        topo.className = "topo";
+    }
+}
+</script>
+</body>
+</html>

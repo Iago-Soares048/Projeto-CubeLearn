@@ -18,124 +18,48 @@ h1 {
     padding: 0px;
 }
 
-/*      Primeira sessão     */
-
-.primeirasessao {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    gap: 260px;
-    overflow: hidden;
-    align-items: center;
-    height: 100vh;
-    background-color: #000000;
-    margin-top: 0px;
-    border-bottom: solid 1px white;
-}
-
-.primeiratela {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-left: 10vw;
-}
-
-.backgroundHome {
-    height: 50vh;
-    margin-right: 160px;
-    z-index: 0;
-}
-
-.tituloP {
-    font-size: 50px;
-    width: max-content;
-    color: white;
-}
-
-.titulos {
-    color: white;
-    font-size: 20px;
-    text-align: center;
-    margin-top: 20px;
-    animation: typing 6s 1;
-    width: max-content;
-    animation: typing 6s steps(78, end) 1, blink-caret .6s step-end infinite alternate;
-    white-space: nowrap;
-    overflow: hidden;
-    border-right: 3px solid;
-}
-
-@keyframes typing {
-    from {
-        width: 0ch
-    }
-
-    to {
-        width: 70ch
-    }
-}
-
-@keyframes blink-caret {
-    50% {
-        border-color: transparent
-    }
-}
-
-.começarB {
-    font-size: 28px;
-    background-color: rgb(29, 211, 29);
-    margin-top: 90px;
-    padding: 18px 15px;
-    border-radius: 45px;
-}
-
-.separaçao {
-    height: 80px;
-}
 
 /*      Segunda Sessão        */
 
 .segundasessão {
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
-.linhaDoTempo {
-    margin-left: 1px solid white;
+    height: max-content;
+    margin: 0px 35px;
+    padding: 25px 25px;
+    margin-top: 150px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 29px;
 }
 
 .box-segundasessao {
     display: flex;
+    flex-direction: column;
     width: 100%;
-    height: 60vh;
-    margin: 0px 35px;
+    height: 400vh;
     align-items: center;
-    justify-content: space-between;
-    padding: 40px 0px 40px 40px;
-    background-color: rgb(221, 221, 224);
+    padding: 40px 290px 40px 290px;
+    background-color: rgb(255, 255, 255);
     border-radius: 29px;
+    border: black 3px solid;
     color: black;
     font-family: 'Miletus Grotesk', sans-serif;
     overflow: hidden;
-
+    
 }
 
 .box-segundasessao h1 {
     border-bottom: 2px solid black;
-    padding-bottom: 20px;
+    width: max-content;
+    padding-bottom: 5px;
     font-size: 2.3rem;
     color: black;
-    font-weight: bold;
+    margin: 50px 0px 175px 0px;
 }
 
 .box-segundasessao p {
     color: black;
     font-size: 20px;
-    width: 550px;
-    margin-top: 50px;
 }
 
 .box-segundasessao img {
@@ -145,13 +69,58 @@ h1 {
 .textos-segundasessao {
     display: flex;
     flex-direction: column;
-    height: 100%;
-    margin-top: 5%;
+    align-items: center;
+    height: 
+    max-content;
 }
 
 .textos-segundasessao p {
-    margin-top: 14%;
+    margin-top: 25px;
 }
+
+.tutorial h1 {
+    margin: 135px 0px 35px 0px;
+
+}
+
+.peçascontent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 130px;
+}
+
+.peças{
+    display: flex;
+    gap: 70px;
+}
+
+
+.linhaPassoAPasso {
+    display: flex;
+    width: max-content;
+}
+
+.passoapasso {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 130px;
+    gap: 50px;
+    width: 100%;
+}
+
+
+
+
+
+
+
+
+
+
+
 
 .terceirasessao {
     display: flex;
@@ -306,6 +275,7 @@ h1 {
 .cards {
     display: flex;
     justify-content: center;
+    text-justify: center;
     gap: 75px;
     margin-top: 25px;
 
@@ -327,10 +297,8 @@ h1 {
     border: 1px black solid;
 }
 .card p {
-    font-size: 25px;
-    margin-top: 15px;
-    width: max-content;
-    border-bottom: 1px black solid;
+    margin-top: 10px;
+    text-align: center;
 }
 
 /* Quinta sessao */

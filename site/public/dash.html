@@ -27,55 +27,75 @@
   </header>
   <div class="container">
 
-  <div class="esquerda">
-    <section class="historico">
-    <h1 class="titulo-secao">Histórico de Tempos</h1>
+    <div class="esquerda">
+      <section class="historico">
+        <h1 class="titulo-secao">Histórico de Tempos</h1>
 
-    <div id="lista_historico"></div>
-  </section>
+        <div class="lista_historico" id="lista_historico"></div>
 
-  <section class="kpi-section">
-    <h1 class="titulo-secao">KPIs</h1>
+        <div class="legendaHistorico">
+          <p>Pior tempo:
+          <div style="height: 100%; width: 18px; border-radius: 100px; background-color: red;"></div>
+          </p>
+          <p>Melhor tempo:
+          <div style="height: 100%; width: 18px; border-radius: 100px; background-color: rgb(50, 177, 107);"></div>
+          </p>
+        </div>
+      </section>
 
-   <div class="kpi-cards">
-     <div class="kpi-card">
-      <h2>Tempo Record</h2>
-      <p id="kpi_record">00:12.87</p>
+      <section class="kpi-section">
+        <h1 class="titulo-secao">KPIs</h1>
+
+        <div class="kpis">
+          <div class="kpi-cards">
+            <div class="kpi-card">
+              <h2>Tempo Record</h2>
+              <p id="kpi_record">00:12.87</p>
+            </div>
+
+            <div class="kpi-card">
+              <h2>Pior Tempo</h2>
+              <p id="kpi_pior">00:18.92</p>
+            </div>
+          </div>
+
+          <div class="kpi-cards">
+
+            <div class="kpi-card">
+              <h2>Melhor AVG12</h2>
+              <p id="kpi_avg12">00:14.21</p>
+            </div>
+
+            <div class="kpi-card">
+              <h2>Melhor AVG5</h2>
+              <p id="kpi_avg5">00:13.54</p>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
 
-    <div class="kpi-card">
-      <h2>Melhor AVG5</h2>
-      <p id="kpi_avg5">00:13.54</p>
-    </div>
+
+
+    <section class="graficoGeral">
+      <section class="grafico-section">
+        <h1 class="titulo-secao">Gráfico do Histórico de solves</h1>
+
+        <div class="grafico-area">
+          <canvas id="linha"></canvas>
+        </div>
+      </section>
+      <section class="grafico-section2">
+        <h1 class="titulo-secao">Gráfico do Histórico de records</h1>
+
+        <div class="grafico-area">
+          <canvas id="linha"></canvas>
+        </div>
+      </section>
+    </section>
+
+
   </div>
-
-    <div class="kpi-cards">
-      
-    <div class="kpi-card">
-      <h2>Melhor AVG12</h2>
-      <p id="kpi_avg12">00:14.21</p>
-    </div>
-
-    <div class="kpi-card">
-      <h2>Pior Tempo</h2>
-      <p id="kpi_pior">00:18.92</p>
-    </div>
-
-    </div>
-  </section>
-  </div>
-
-
-
-  <section class="grafico-section">
-    <h1 class="titulo-secao">Gráfico do Histórico</h1>
-
-    <div class="grafico-area">
-      <canvas id="linha"></canvas>
-    </div>
-  </section>
-
-</div>
 
 
   <!-- <div id="div_mensagem"></div> -->
@@ -86,6 +106,10 @@
 <script>
   let teste = []
   let dados = []
+  let record = 0
+  let piorTempo = 0
+  let media = 0
+  let media12 = 0
 
 
   // Função chamada ao carregar a página para obter e processar os dados
@@ -124,7 +148,7 @@
           teste = json;
 
           dados = []
-     
+
           for (let i = 0; i < teste.length; i++) {
             dados.push({
               Horario: json[i].horaDoRegistro,
@@ -133,13 +157,6 @@
           }
           plotarGraficoLinha(dados);
           plotarHistorico(dados);
-
-          let dia = teste[0].horaDoRegistro
-          let diaF = dia.substring(8, 10)
-          let mesF = dia.substring(5, 7)
-          let anoF = dia.substring(0, 4)
-
-
         })
 
 
@@ -169,8 +186,8 @@
   function converterTempoParaNumero(tempo) {
     if (tempo.includes(':')) {
       let [min, seg] = tempo.split(":");
-    return (parseInt(min) * 60) + parseFloat(seg);
-  } else {
+      return (parseInt(min) * 60) + parseFloat(seg);
+    } else {
       return parseFloat(tempo);
     }
   }
@@ -183,7 +200,7 @@
     if (segundos < 10) {
       segundos = "0" + segundos;
     }
-    
+
 
     return `${String(minutos).padStart(2, "0")}:${segundos}`;
   }
@@ -194,18 +211,16 @@
   // Função para plotar o gráfico de linha
   function plotarGraficoLinha(dados) {
 
-    // Separando os rótulos (labels) e os dados dos votos
     tempos = [];
     horarios = [];
 
     for (let i = 0; i < dados.length; i++) {
       tempos.push(dados[i].Tempo);
-      horarios.push(dados[i].Horario);
+      horarios.push(dados[i].Horario.substring(11, 19)); // mostra só hora
     }
 
-    // Capturando o elemento canvas pelo id 
     var ctx = document.getElementById('linha').getContext('2d');
-    // Criando o gráfico de linha usando o Chart.js
+
     let myChart = new Chart(ctx, {
       type: 'line',
       data: {
@@ -213,13 +228,15 @@
         datasets: [{
           label: 'Tempo de Solução',
           data: tempos,
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-          }
+          borderWidth: 2,
+          pointRadius: 4,
+          tension: 0.2
         }]
       },
       options: {
+        responsive: true,
+        maintainAspectRatio: false,
+
         scales: {
           y: {
             ticks: {
@@ -229,23 +246,166 @@
             }
           }
         },
+
         plugins: {
           tooltip: {
+            enabled: true,
             callbacks: {
+              title: function (context) {
+                return "Horário: " + context[0].label;
+              },
               label: function (context) {
                 return "Tempo: " + formatarTempo(context.raw);
               }
             }
           }
         }
+
       }
     });
   }
 
   function plotarHistorico(dados) {
+
+
+
+
+    // CALCULO DO RECORDE
+
+
+    record = dados[0].Tempo
+    for (let i = 0; i < dados.length; i++) {
+      let tempoPAtual = dados[i].Tempo;
+      if (record > tempoPAtual) {
+        record = tempoPAtual
+      }
+    }
+
+    // CALCULO DO PIOR TEMPO
+
+
+    piorTempo = dados[0].Tempo
+    for (let i = 0; i < dados.length; i++) {
+      let tempoPAtual = dados[i].Tempo;
+      if (piorTempo < tempoPAtual) {
+        piorTempo = tempoPAtual
+      }
+    }
+
+
+
+    // CALCULO DO MELHOR AVG12
+
+
+
+    let menorTempo12 = dados[0].Tempo
+    let maiorTempo12 = dados[0].Tempo
+    let avg12atual = 0;
+    for (let i = 0; i < dados.length; i++) {
+      menorTempo12 = dados[0].Tempo
+      maiorTempo12 = dados[0].Tempo
+      avg12atual = 0;
+      if (i >= 11) {
+        for (let y = i; y > i - 12; y--) {
+          if (menorTempo12 > dados[y].Tempo) {
+            menorTempo12 = dados[y].Tempo
+          }
+
+          if (maiorTempo12 < dados[y].Tempo) {
+            maiorTempo12 = dados[y].Tempo
+          }
+
+          avg12atual += dados[y].Tempo
+        }
+
+        if (!isNaN(avg12atual)) {
+          avg12atual = (avg12atual - maiorTempo12 - menorTempo12) / 10
+        } else {
+          avg12atual = 0
+        }
+
+        if (media12 == 0 || avg12atual < media12) {
+          media12 = avg12atual
+        }
+      }
+
+    }
+
+
+
+    // CALCULO DO MELHOR AVG5
+
+
+
+    let menorTempo5 = dados[0].Tempo
+    let maiorTempo5 = dados[0].Tempo
+    let avg5atual = 0;
+    for (let i = 0; i < dados.length; i++) {
+      menorTempo5 = dados[0].Tempo
+      maiorTempo5 = dados[0].Tempo
+      avg5atual = 0;
+      if (i >= 4) {
+        for (let y = i; y > i - 5; y--) {
+
+          if (menorTempo5 > dados[y].Tempo) {
+            menorTempo5 = dados[y].Tempo
+          }
+
+          if (maiorTempo5 < dados[y].Tempo) {
+            maiorTempo5 = dados[y].Tempo
+          }
+
+          avg5atual += dados[y].Tempo
+        }
+
+        if (!isNaN(avg5atual)) {
+          avg5atual = (avg5atual - maiorTempo5 - menorTempo5) / 3
+        } else {
+          avg5atual = 0
+        }
+
+        if (media == 0 || avg5atual < media) {
+          media = avg5atual
+        }
+      }
+
+    }
+
+
+
+
+
+    // EXIBIÇÃO NAS KPIs
+
+
+
+
+    if (dados.length < 12) {
+      kpi_avg12.innerHTML = `Não há 12 registros ainda`
+    } else {
+      kpi_avg12.innerHTML = formatarTempo(media12)
+    }
+
+    if (dados.length < 5) {
+      kpi_avg5.innerHTML = `Não há 5 registros ainda`
+    } else {
+      kpi_avg5.innerHTML = formatarTempo(media)
+    }
+
+    kpi_record.innerHTML = formatarTempo(record)
+    kpi_pior.innerHTML = formatarTempo(piorTempo)
+
+    // EXIBIÇÃO NO HISTÓRICO DE TEMPOS
+
     let contador = 1
-    for (let i = dados.length -1; i >= 0 ; i--) {
-      lista_historico.innerHTML += `<div class="solve-item">Solve ${i + 1}# - ${dados[i].Tempo} </div>`
+    for (let i = dados.length - 1; i >= 0; i--) {
+      if (dados[i].Tempo == record) {
+        lista_historico.innerHTML += `<div class="solve-item record">Solve ${i + 1}# - ${formatarTempo(dados[i].Tempo)} </div>`
+      } else if (dados[i].Tempo == piorTempo) {
+        lista_historico.innerHTML += `<div class="solve-item piorLinha">Solve ${i + 1}# - ${formatarTempo(dados[i].Tempo)} </div>`
+      } else {
+        lista_historico.innerHTML += `<div class="solve-item">Solve ${i + 1}# - ${formatarTempo(dados[i].Tempo)} </div>`
+      }
       contador++
     }
   }

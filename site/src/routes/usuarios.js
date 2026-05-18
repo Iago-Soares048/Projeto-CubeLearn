@@ -20,4 +20,8 @@ router.post("/puxarDados", function (req, res) {
     usuarioController.puxarDados(req, res);
 });
 
+router.post("/puxarDadosUsuario", function (req, res) {
+    usuarioController.puxarDadosUsuario(req, res);
+});
+
 module.exports = router;

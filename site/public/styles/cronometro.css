@@ -4,6 +4,7 @@
     margin: 0;
     padding: 0;
     text-decoration: none;
+    font-family: Arial, sans-serif;
 }
 
 * button {
@@ -18,8 +19,8 @@ a {
 }
 
 body {
-    background-color: rgb(66, 60, 60);
-    background-size: cover;
+  background-color: #1b1b1b;
+  background-size: cover;
 }
 
 header {
@@ -78,6 +79,11 @@ header {
     border-radius: 24px;
 }
 
+.sessao-pagcronometro {
+    display: flex;
+    margin-top: 100px;
+}
+
 
 
 .cronometro-content{
@@ -123,10 +129,21 @@ header {
     gap: 14px;    
 }
 
-.sessao-pagcronometro {
-    display: flex;
-    margin-top: 120px;
+.cuboPag {
+    font-size: 30px;
 }
+
+.kpisAtual, .kpisMelhores {
+    display: flex;
+    flex-direction: column;
+    border: solid black 1px;
+}
+
+.blocosLista {
+    display: flex;
+    align-items: center;
+}
+
 .listabox {
     display: flex;
     flex-direction: column;
@@ -140,12 +157,18 @@ header {
 }
 .dadoLista {
     color: rgb(53, 2, 2);
-    
 }
+
+
 .dadosListaBox {
     display: flex;
     flex-direction: column;
 }
+
+.dadosListaBox h1 {
+    font-size: 20px;
+}
+
 
 .titulosLista {
     display: flex;
@@ -155,6 +178,8 @@ header {
 .titulosLista span {
     display: flex;
     justify-content: center;
+    align-items: center;
+    text-align: center;
     border: 1px solid black;
     width: 50%;
 }

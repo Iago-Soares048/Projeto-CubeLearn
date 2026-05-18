@@ -9,25 +9,22 @@
     <link rel="stylesheet" href="./styles/index.css">
 </head>
 
-<body class="body-index">
+<body class="body-index" onload="carregou()">
     <header>
         <div class="nav_bar">
             <img src="./images/Logo+nome.png" alt="" class="logo">
-            <div class="botoesD areanav">
-                <a class="entrarb" href="./login.html">Entrar</a>
-                <a class="botaoNavegar" href="#sobremim">Sobremim</a>
-                <a class="botaoNavegar" href="#utilidades">Utilidades</a>
-                <a class="botaoNavegar" href="#SBSite">Sobre o site</a>
-                <a class="botaoNavegar" href="#inicio">Inicio</a>
-            </div>
+            <div class="olaUsuario" id="olaUsuario"></div>
+            <div class="botoesD areanav" id="botoesD"></div>
         </div>
     </header>
 
     <section class="primeirasessao" id="inicio">
-        <div class="primeiratela">
-            <h1 class="tituloP">Desde o aprendiz<br> ao profissional:<br> Evolua com aprendizado, prática e dados.</h1><br>
+        <div class="primeiratela" id="primeiratela">
+            <h1 class="tituloP">Desde o aprendiz<br> ao profissional:<br> Evolua com aprendizado, prática e dados.</h1>
+            <br>
             <p class="titulos">Aprenda métodos, acompanhe seus tempos e evolua como um verdadeiro Speedcuber!</p>
-            <button class="começarB">Começar a aprender</button>
+            <div id="começarB" class="botaoInicial"></div>
+
         </div>
         <img class="backgroundHome" src="./images/cuboback.jpg">
         <!-- <div class="cubosombra"><img src="./images/cubo.png" class="cuboimg"></div> -->
@@ -40,7 +37,10 @@
 
                 <h1>Um lugar para aprender e treinar</h1>
 
-                <p>Aqui onde você pode encontrar informações e ferramentas que realmente te ajudarão a estar imerso neste mundo, um site focado em ensinar o básico para quem quer entender mais (Como o metodo LBL 3x3 padrão), e ao mesmo tempo para quem quer práticar e usar ferramentas para analisar seus dados e se tornar o melhor.
+                <p>Aqui onde você pode encontrar informações e ferramentas que realmente te ajudarão a estar imerso
+                    neste mundo, um site focado em ensinar o básico para quem quer entender mais (Como o metodo LBL 3x3
+                    padrão), e ao mesmo tempo para quem quer práticar e usar ferramentas para analisar seus dados e se
+                    tornar o melhor.
                     <br><br> Seja também um SpeedCuber!
                 </p>
             </div>
@@ -84,7 +84,8 @@
                     <img src="./images/colecao.webp" alt="">
                     <div class="cronometroTextos">
                         <h1>Separação por cubos</h1>
-                        <p>Organize suas solves por cubo cada cubo seu (3x3, 4x4 5x5 e outros) e acompanhe sua evolução em cada um deles.</p>
+                        <p>Organize suas solves por cubo cada cubo seu (3x3, 4x4 5x5 e outros) e acompanhe sua evolução
+                            em cada um deles.</p>
                     </div>
                 </div>
 
@@ -94,7 +95,7 @@
     </section>
 
 
-    
+
     <section class="quartasessão" id="SBSite">
 
         <div class="box-quartasessao">
@@ -102,19 +103,35 @@
 
                 <h1>Modelos classicos WCA (World Cube Association)</h1>
                 <div class="cards">
-                    <div class="card"><p>2x2</p><img src="./images/2x2.jpg" alt=""></div>
-                    <div class="card"><p>3x3</p><img src="./images/3x3.jpg" alt=""></div>
-                    <div class="card"><p>4x4</p><img src="./images/4x4.webp" alt=""></div>
-                    <div class="card"><p>5x5</p><img src="./images/5x5.webp" alt=""></div>
+                    <div class="card">
+                        <p>2x2</p><img src="./images/2x2.jpg" alt="">
+                    </div>
+                    <div class="card">
+                        <p>3x3</p><img src="./images/3x3.jpg" alt="">
+                    </div>
+                    <div class="card">
+                        <p>4x4</p><img src="./images/4x4.webp" alt="">
+                    </div>
+                    <div class="card">
+                        <p>5x5</p><img src="./images/5x5.webp" alt="">
+                    </div>
                 </div>
-                
+
                 <div class="cards">
-                    <div class="card"><p>Pyraminx</p><img src="./images/pyraminx.webp" alt=""></div>
-                    <div class="card"><p>Skewb</p><img src="./images/skewb.webp" alt=""></div>
-                    <div class="card"><p>Square</p><img src="./images/square-1.jpg" alt=""></div>
-                    <div class="card"><p>Megaminx</p><img src="./images/megaminx.webp" alt=""></div>
+                    <div class="card">
+                        <p>Pyraminx</p><img src="./images/pyraminx.webp" alt="">
+                    </div>
+                    <div class="card">
+                        <p>Skewb</p><img src="./images/skewb.webp" alt="">
+                    </div>
+                    <div class="card">
+                        <p>Square</p><img src="./images/square-1.jpg" alt="">
+                    </div>
+                    <div class="card">
+                        <p>Megaminx</p><img src="./images/megaminx.webp" alt="">
+                    </div>
                 </div>
-                
+
             </div>
 
         </div>
@@ -131,8 +148,12 @@
                     <img src="./images/meus.jpg" alt="">
                     <div class="sobremim-texto">
                         <h1>Por que cubos mágicos?</h1>
-                        <p>Desde criança fui uma pessoa extremamente curiosa para desafios, e foi durante a pandemia, quando ninguem tinha nada para fazer que busquei um novo hobby.</p>
-                        <p> Foi então que em um simples mercadinho no interior do Piauí, achei um cubo mágico que despertou minha curiosidade. O que começou como só um pequeno interesse rapidamente se tornou um desafio — e hoje criei esse site para compartilhar esse universo com outras pessoas.</p>
+                        <p>Desde criança fui uma pessoa extremamente curiosa para desafios, e foi durante a pandemia,
+                            quando ninguem tinha nada para fazer que busquei um novo hobby.</p>
+                        <p> Foi então que em um simples mercadinho no interior do Piauí, achei um cubo mágico que
+                            despertou minha curiosidade. O que começou como só um pequeno interesse rapidamente se
+                            tornou um desafio — e hoje criei esse site para compartilhar esse universo com outras
+                            pessoas.</p>
                     </div>
                 </div>
             </div>
@@ -145,5 +166,109 @@
 </html>
 
 <script>
+
+    let dadosUsuario = []
+    function carregou() {
+        carregarDados()
+    }
+
+    function carregarDados() {
+        console.log(`carregarDadosChamada ${sessionStorage.getItem('NOME_USUARIO')}`)
+
+        if (sessionStorage.getItem('EMAIL_USUARIO') != null) {
+
+            fetch("/usuarios/puxarDadosUsuario", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    emailServer: sessionStorage.EMAIL_USUARIO,
+                })
+            }).then(function (resposta) {
+                console.log("ESTOU NO THEN DO entrar()!")
+
+                if (resposta.ok) {
+                    resposta.json().then(json => {
+
+                        dadosUsuario = []
+                        for (let i = 0; i < json.length; i++) {
+                            dadosUsuario.push({
+                                idUsuario: json[i].id,
+                                nome: json[i].nome,
+                                email: json[i].email
+                            })
+                        }
+
+                        olaUsuario.innerHTML = `<h1>Olá ${sessionStorage.NOME_USUARIO}</h1>`
+
+                        console.log(`tatetaerfdsaf`)
+                        botoesD.innerHTML = `
+                        <a class="sairb" onclick="logout()">Sair</a>
+                        <a class="botaoNavegar" href="#sobremim">Sobremim</a>
+                        <a class="botaoNavegar" href="#utilidades">Utilidades</a>
+                        <a class="botaoNavegar" href="#SBSite">Sobre o site</a>
+                        <a class="botaoNavegar" href="#inicio">Inicio</a>
+                        `
+
+                        começarB.innerHTML = `<a class="praticarB" id="começarB" href="./cronometro.html">Começar a praticar</a>`
+
+                        console.log("voce esta logado")
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    })
+
+
+                } else {
+
+
+                    console.log("Houve um erro ao tentar realizar o login!");
+
+                    resposta.text().then(texto => {
+                        console.error(texto);
+                        // finalizarAguardar(texto);
+                    });
+                }
+
+            }).catch(function (erro) {
+                console.log(erro);
+            })
+        } else {
+            console.log("voce NÃO esta logado")
+
+            botoesD.innerHTML = `
+                            <a class="entrarb" href="./login.html">Entrar</a>
+                <a class="botaoNavegar" href="#sobremim">Sobremim</a>
+                <a class="botaoNavegar" href="#utilidades">Utilidades</a>
+                <a class="botaoNavegar" href="#SBSite">Sobre o site</a>
+                <a class="botaoNavegar" href="#inicio">Inicio</a>
+            `
+            começarB.innerHTML = `<a class="começarB" href="./login.html">Começar a aprender</a>`
+
+            olaUsuario.innerHTML = ``
+
+
+        }
+
+    }
+
+    function logout() {
+        sessionStorage.removeItem("EMAIL_USUARIO")
+        sessionStorage.removeItem("ID_USUARIO")
+        sessionStorage.removeItem("NOME_USUARIO")
+
+        location.reload()
+    }
 
 </script>

@@ -20,18 +20,18 @@
 
     <section class="sessão-cadastro">
         <div class="cadastro-box">
-            <p>Login</p>
+            <p>Bem vindo de volta!</p>
             <div>
-                <div class="campo"><img src="./images/gmail.png" class="emailimg" ><input type="text" id="email_input"
+                <div class="campo"><input type="text" id="email_input"
                         placeholder="Insira seu email"></div>
-                <div class="campo"><img src="./images/padlock.png" class="emailimg" ><input type="password" id="senha_input"
+                <div class="campo"><input type="password" id="senha_input"
                         placeholder="Sua senha"></div>
             </div>
 
             <div class="butoes">
-                <button onclick="entrar()" class="cadastrob">Login</button>
-                <a href="./cadastro.html" class="">Não tenho uma conta</a>
+                <a onclick="entrar()" class="entrarCb">Entrar</a>
             </div>
+            <a class="registrarb" href="./cadastro.html">Não tem conta? Crie uma</a>
 
         </div>
     </section>
@@ -81,7 +81,7 @@
                     sessionStorage
 
                     setTimeout(function () {
-                        window.location = "cronometro.html";
+                        window.location = "index.html";
                     }, 1000); // apenas para exibir o loading
 
                 });

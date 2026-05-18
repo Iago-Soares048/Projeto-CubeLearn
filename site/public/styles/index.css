@@ -20,6 +20,35 @@ h1 {
 
 /*      Primeira sessão     */
 
+.olaUsuario {
+    color: white;
+}
+
+.sairb {
+    font-size: 18px;
+    padding: 13px;
+    background-color: rgb(211, 29, 29);
+    border-radius: 24px;
+}
+
+.botaoInicial {
+    margin-top: 90px;
+}
+
+.praticarB {
+    font-size: 28px;
+    background-color: rgb(29, 211, 29);
+    padding: 18px 15px;
+    border-radius: 45px;
+}
+
+.começarB {
+    font-size: 28px;
+    background-color: rgb(29, 211, 29);
+    padding: 18px 15px;
+    border-radius: 45px;
+}
+
 .primeirasessao {
     width: 100%;
     display: flex;
@@ -82,13 +111,7 @@ h1 {
     }
 }
 
-.começarB {
-    font-size: 28px;
-    background-color: rgb(29, 211, 29);
-    margin-top: 90px;
-    padding: 18px 15px;
-    border-radius: 45px;
-}
+
 
 .separaçao {
     height: 80px;

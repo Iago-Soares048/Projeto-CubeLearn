@@ -183,14 +183,18 @@
     console.log(`teste:`)
   }
 
-  function converterTempoParaNumero(tempo) {
-    if (tempo.includes(':')) {
-      let [min, seg] = tempo.split(":");
-      return (parseInt(min) * 60) + parseFloat(seg);
+function converterTempoParaNumero(tempo) {
+    if (tempo.includes(":")) {
+        let posicaoDoisPontos = tempo.indexOf(":");
+
+        let minutos = Number(tempo.substring(0, posicaoDoisPontos));
+        let segundos = Number(tempo.substring(posicaoDoisPontos + 1));
+
+        return (minutos * 60) + segundos;
     } else {
-      return parseFloat(tempo);
+        return Number(tempo);
     }
-  }
+}
 
 
   function formatarTempo(segundosTotais) {
@@ -202,7 +206,7 @@
     }
 
 
-    return `${String(minutos).padStart(2, "0")}:${segundos}`;
+    return `${minutos.toString()}:${segundos}`;
   }
 
   let tempos = [];
@@ -400,11 +404,11 @@
     let contador = 1
     for (let i = dados.length - 1; i >= 0; i--) {
       if (dados[i].Tempo == record) {
-        lista_historico.innerHTML += `<div class="solve-item record">Solve ${i + 1}# - ${formatarTempo(dados[i].Tempo)} </div>`
+        lista_historico.innerHTML += `<div class="solve-item record">Solve ${i + 1} - ${formatarTempo(dados[i].Tempo)} </div>`
       } else if (dados[i].Tempo == piorTempo) {
-        lista_historico.innerHTML += `<div class="solve-item piorLinha">Solve ${i + 1}# - ${formatarTempo(dados[i].Tempo)} </div>`
+        lista_historico.innerHTML += `<div class="solve-item piorLinha">Solve ${i + 1} - ${formatarTempo(dados[i].Tempo)} </div>`
       } else {
-        lista_historico.innerHTML += `<div class="solve-item">Solve ${i + 1}# - ${formatarTempo(dados[i].Tempo)} </div>`
+        lista_historico.innerHTML += `<div class="solve-item">Solve ${i + 1} - ${formatarTempo(dados[i].Tempo)} </div>`
       }
       contador++
     }

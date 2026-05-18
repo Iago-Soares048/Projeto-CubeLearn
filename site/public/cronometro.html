@@ -24,10 +24,39 @@
 
         <div class="listabox" id="listabox">
             <div class="dadosListaBox">
-                <h1 class="cuboPag" id="cuboPag"></h1>
-                <span class="blocosLista" id="avg5span">AVG5:</span>
-                <span class="blocosLista" id="avg12span">AVG12: </span>
-                <span id="recordspan">Record</span>
+                <p class="cuboPag" id="cuboPag"></p>
+                <div class="kpisAtual">
+                    <h1>Atual</h1>
+                    <div>
+                        <div class="blocosLista">
+                            <h1>AVG5:</h1><span id="avg5span"></span>
+                        </div>
+                        <div class="blocosLista">
+                            <h1>AVG12:</h1><span id="avg12span"></span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="blocosLista">
+                            <h1>Melhor tempo:</h1><span id="recordspan"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="kpisMelhores">
+                    <h1>Atual</h1>
+                    <div>
+                        <div class="blocosLista">
+                            <h1>AVG5:</h1><span id="avg5span"></span>
+                        </div>
+                        <div class="blocosLista">
+                            <h1>AVG12:</h1><span id="avg12span"></span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="blocosLista">
+                            <h1>Melhor tempo:</h1><span id="recordspan"></span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="lista" id="lista">
@@ -39,45 +68,47 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="cronometro-content">
-            
+
             <div class="cronometroBox">
                 <p class="timer numbers" id="timer">00:00.0</p>
                 <div class="medias" id="medias">
-                    <span id="avg5span">AVG5:</span>
-                    <span id="avg12span">AVG12:</span>
+                    <div>AVG5:<span id="avg5span"></span></div>
+                    <div>AVG12:<span id="avg12span"></span></div>
                 </div>
             </div>
         </div>
         </div>
     </section>
-    
+
 </body>
 
 <script>
     let parou = false
     let dados = []
     let tempoAtual = "";
-    let media = 0
-    let media12 = 0
+    let mediaAtual = 0
+    let media12Atual = 0
+    let melhorMedia5 = 0
+    let melhorMedia12 = 0
     let record = 0
     function carregou() {
-        
-        
+
+
         carregarLista()
     }
-    
-    
-    
+
+
+
     function soltou(e) {
         if (parou) {
             parou = false
             return;
         }
-        
+
         console.log("soltou", e);
-        
+
         if (!intervalo && e.code == "Space") {
             console.log("entrou")
             iniciar()
@@ -85,13 +116,13 @@
     }
 
     function apertou(e) {
-        
+
         if (intervalo && e.code == "Space") {
             parar()
             parou = true
         }
     }
-    
+
     let segundos = 0;
     let minutos = 0;
     let dMilissegundos = 0;
@@ -99,7 +130,7 @@
     let tempoInicio;
     let historicoTempos = []
     let timerDisplay = ""
-    
+
     function iniciar() {
         timerDisplay = ""
         tempoInicio = Date.now();
@@ -147,8 +178,8 @@
         <div class="listabox" id="listabox">
             <div class="dadosListaBox">
                 <h1 class="cuboPag" id="cuboPag"></h1>
-                <span>AVG5: ${media} </span>
-                <span>AVG12: ${media12} </span>
+                <span>AVG5: ${mediaAtual} </span>
+                <span>AVG12: ${media12Atual} </span>
             </div>
 
             <div class="lista" id="lista">
@@ -168,7 +199,7 @@
                 <div class="medias" id="medias">
                     <span id="avg5span">AVG5: </span>
                     <span id="avg12span">AVG12: </span>
-                    <span id="recordspan">Record: </span>
+                    <span id="recordspan">Melhor tempo: </span>
                 </div>
             </div>
         </div>
@@ -199,6 +230,7 @@
                 // Agora vá para o arquivo routes/usuario.js
 
                 tempoServer: tempoInserirLet,
+                emailServer: sessionStorage.EMAIL_USUARIO
             }),
         })
             .then(function (resposta) {
@@ -237,10 +269,10 @@
         // .catch(function(err){
         //   console.log(err);
         // })
-        
+
         // Como eu não configurei as rotas, eu criei um array com os dados para simular a obtenção dos dados
-        
-        
+
+
         fetch("/usuarios/puxarDados", {
             method: "POST",
             headers: {
@@ -251,11 +283,11 @@
             })
         }).then(function (resposta) {
             console.log("ESTOU NO THEN DO entrar()!")
-            
+
             if (resposta.ok) {
                 resposta.json().then(json => {
                     teste = json;
-                    
+
                     dados = []
                     for (let i = 0; i < teste.length; i++) {
                         dados.push({
@@ -265,7 +297,7 @@
                             Modelo: json[i].modelo
                         })
                     }
-                                        
+
                     for (let i = dados.length - 1; i >= 0; i--) {
                         lista.innerHTML += `<div class="linhaLista"> 
                     <span>${dados[i].Horario.substring(12, dados[i].Horario.length)}</span>
@@ -273,31 +305,31 @@
                         `
                     }
 
-                    media = 0
-                    media12 = 0
+                    mediaAtual = 0
+                    media12Atual = 0
 
 
                     for (let i = dados.length - 1; i >= 0 && i > dados.length - 13; i--) {
                         if (i > dados.length - 6 && dados.length >= 5) {
-                            console.log(`media5: ${media}`)
-                            media += converterTempoParaNumero(dados[i].Tempo)
+                            console.log(`media5: ${mediaAtual}`)
+                            mediaAtual += converterTempoParaNumero(dados[i].Tempo)
                         }
-                        
+
                         if (dados.length >= 12) {
-                            media12 += converterTempoParaNumero(dados[i].Tempo)
+                            media12Atual += converterTempoParaNumero(dados[i].Tempo)
                         }
                     }
 
-                    if (!isNaN(media)) {
-                        media = formatarTempo( media / 5)
+                    if (!isNaN(mediaAtual)) {
+                        mediaAtual = formatarTempo(mediaAtual / 5)
                     } else {
-                        media = 0
+                        mediaAtual = 0
                     }
 
-                    if (!isNaN(media12)) {
-                        media12 = formatarTempo( media12 / 12)
+                    if (!isNaN(media12Atual)) {
+                        media12Atual = formatarTempo(media12Atual / 12)
                     } else {
-                        media12 = 0
+                        media12Atual = 0
                     }
 
                     record = dados[0].Tempo
@@ -310,22 +342,22 @@
 
 
 
-                        medias.innerHTML = `<span>AVG5: ${media}</span>
-                    <span>AVG12: ${media12} </span>`
+                        medias.innerHTML = `<span>AVG5: ${mediaAtual}</span>
+                    <span>AVG12: ${media12Atual} </span>`
 
                         cuboPag.innerHTML = `<div class="dadoLista">Cubo:${dados[0].Modelo}</div>`
 
-                         avg5span.innerHTML = `AVG5: ${media}`
-                         avg12span.innerHTML = `AVG12: ${media12}`
-                         recordspan.innerHTML = `Record: ${record}`
+                        avg5span.innerHTML = converterTempoParaNumero(mediaAtual)
+                        avg12span.innerHTML = media12Atual
+                        recordspan.innerHTML = record
 
 
 
-                    /*          Usuario:${teste[0].usuario}<br> */
-                    console.log(`é esse que eu quero ${json}`);
-                    console.log(JSON.stringify(json));
+                        /*          Usuario:${teste[0].usuario}<br> */
+                        console.log(`é esse que eu quero ${json}`);
+                        console.log(JSON.stringify(json));
 
-                    
+
                     }
 
 
@@ -355,26 +387,111 @@
         console.log(`teste:`)
     }
 
-    function converterTempoParaNumero(tempo) {
-    if (tempo.includes(':')) {
-      let [min, seg] = tempo.split(":");
-    return (parseInt(min) * 60) + parseFloat(seg);
-  } else {
-      return parseFloat(tempo);
+    function carregarMelhores() {
+
     }
-  }
+
+    function converterTempoParaNumero(tempo) {
+        if (tempo.includes(':')) {
+            let [min, seg] = tempo.split(":");
+            return (parseInt(min) * 60) + parseFloat(seg);
+        } else {
+            return parseFloat(tempo);
+        }
+    }
 
     function formatarTempo(segundosTotais) {
-    let minutos = Math.floor(segundosTotais / 60);
-    let segundos = (segundosTotais % 60).toFixed(1);
+        let minutos = Math.floor(segundosTotais / 60);
+        let segundos = (segundosTotais % 60).toFixed(1);
 
-    if (segundos < 10) {
-      segundos = "0" + segundos;
+        if (segundos < 10) {
+            segundos = "0" + segundos;
+        }
+
+
+        return `${String(minutos).padStart(2, "0")}:${segundos}`;
     }
-    
 
-    return `${String(minutos).padStart(2, "0")}:${segundos}`;
-  }
+    function calcularMelhorMedia() {
+        // CALCULO DO MELHOR AVG12
+
+
+
+        let menorTempo12 = dados[0].Tempo
+        let maiorTempo12 = dados[0].Tempo
+        let avg12atual = 0;
+        for (let i = 0; i < dados.length; i++) {
+            menorTempo12 = dados[0].Tempo
+            maiorTempo12 = dados[0].Tempo
+            avg12atual = 0;
+            if (i >= 11) {
+                for (let y = i; y > i - 12; y--) {
+                    if (menorTempo12 > dados[y].Tempo) {
+                        menorTempo12 = dados[y].Tempo
+                    }
+
+                    if (maiorTempo12 < dados[y].Tempo) {
+                        maiorTempo12 = dados[y].Tempo
+                    }
+
+                    avg12atual += dados[y].Tempo
+                }
+
+                if (!isNaN(avg12atual)) {
+                    avg12atual = (avg12atual - maiorTempo12 - menorTempo12) / 10
+                } else {
+                    avg12atual = 0
+                }
+
+                if (melhorMedia12 == 0 || avg12atual < melhorMedia12) {
+                    melhorMedia12 = avg12atual
+                }
+            }
+
+        }
+
+
+
+        // CALCULO DO MELHOR AVG5
+
+
+
+        let menorTempo5 = dados[0].Tempo
+        let maiorTempo5 = dados[0].Tempo
+        let avg5atual = 0;
+        for (let i = 0; i < dados.length; i++) {
+            menorTempo5 = dados[0].Tempo
+            maiorTempo5 = dados[0].Tempo
+            avg5atual = 0;
+            if (i >= 4) {
+                for (let y = i; y > i - 5; y--) {
+
+                    if (menorTempo5 > dados[y].Tempo) {
+                        menorTempo5 = dados[y].Tempo
+                    }
+
+                    if (maiorTempo5 < dados[y].Tempo) {
+                        maiorTempo5 = dados[y].Tempo
+                    }
+
+                    avg5atual += dados[y].Tempo
+                }
+
+                if (!isNaN(avg5atual)) {
+                    avg5atual = (avg5atual - maiorTempo5 - menorTempo5) / 3
+                } else {
+                    avg5atual = 0
+                }
+
+                if (melhorMedia5 == 0 || avg5atual < melhorMedia5) {
+                    melhorMedia5 = avg5atual
+                }
+            }
+
+        }
+    }
+
+
 
 </script>
 

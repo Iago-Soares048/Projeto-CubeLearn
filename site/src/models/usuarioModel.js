@@ -3,10 +3,10 @@ var database = require("../database/config")
 function puxarDados(email) {
     console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function entrar(): ", email)
     var instrucaoSql = `
-        select Usuario.nome as usuario, Usuario.email as email, Cubo.modelo as modelo, horaDoRegistro, tempoSolucao, Estilo.estilo, Estilo.solucaoDescricao from registroDeTempo
- join estiloDeSolucao as Estilo on registroDeTempo.idEstilo = Estilo.idEstilo
- join cubo as Cubo on Estilo.idCubo = Cubo.idCubo
- join Usuarios as Usuario on Cubo.idUsuario = Usuario.idUsuario  WHERE email = '${email}';
+        select Usuario.nome as usuario, Usuario.email as email, Cubo.modelo as modelo, horaDoRegistro, tempoSolucao from Usuarios as Usuario 
+ join cubo as Cubo on Usuario.idUsuario = Cubo.idUsuario
+ join registroDeTempo on registroDeTempo.idCubo = Cubo.idCubo
+ WHERE email = '${email}';
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
@@ -30,7 +30,7 @@ function autenticar(email, senha) {
 }
 
 // Coloque os mesmos parâmetros aqui. Vá para a var instrucaoSql
-function cadastrar(nome, email, senha, cubo) {
+function cadastrar(nome, email, senha) {
     console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrar():", nome, email, senha);
     
     // Insira exatamente a query do banco aqui, lembrando da nomenclatura exata nos valores

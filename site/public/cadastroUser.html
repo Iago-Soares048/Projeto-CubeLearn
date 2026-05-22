@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./styles/styles.css">
+    <link rel="stylesheet" href="./styles/cadastroUsuario.css">
 </head>
 
 <body class="backgroundCadastroLogin">
@@ -19,7 +20,7 @@
     </header>
 
     <section class="sessão-cadastro">
-        <div id="cardDeErro" class="cardDeErro"><h1>Preencha todos os campos corretamente</h1></div>
+        <div id="cardDeErro" class="cardDeErro"></div>
         <div class="cadastro-box">
             <p>Cadastro</p>
             <div class="campos">
@@ -43,22 +44,12 @@
             </div>
 
             <div class="butoes">
-                <button class="cadastrob" onclick="cadastrarUsuario()">Cadastrar</button>
+                <button class="cadastrob" onclick="cadastrar()">Cadastrar</button>
                 <a href="./login.html">Já tenho uma conta</a>
             </div>
 
         </div>
-        <div class="cubos-box" id="cubosBox">
-            <p>Quais cubos você tem?</p>
-            <div class="campo">                
-            <input type="text" id="cubo_input" placeholder="Insira o nome de cadastro do seu cubo">
-            </div>
-
-            <div class="butoes">
-                <button class="cadastrob" onclick="cadastrar()">Cadastrar cubo</button>
-            </div>
-
-        </div>
+        
 
     </section>
 </body>
@@ -78,7 +69,6 @@
         var emailVar = email_input.value;
         var senhaVar = senha_input.value;
         var confirmacaoSenhaVar = confirmacao_senha_input.value;
-        var cuboVar = cubo_input.value
 
         // Verificando se há algum campo em branco
         if (
@@ -89,8 +79,6 @@
 
             // finalizarAguardar();
             return false;
-        } else {
-            setInterval(5000);
         }
 
         // Verificando se o código de ativação é de alguma empresa cadastrada
@@ -101,7 +89,7 @@
                 console.log("Código de ativação válido.");
                 break;
             } else {
-                cardErro.style.display = "block";
+                cardDeErro.style.display = "block";
                 mensagem_erro.innerHTML = "(Mensagem de erro para código inválido)";
                 // finalizarAguardar();
             }
@@ -119,21 +107,20 @@
 
                 nomeServer: nomeVar,
                 emailServer: emailVar,
-                senhaServer: senhaVar,
-                cuboServer: cuboVar
+                senhaServer: senhaVar
             }),
         })
             .then(function (resposta) {
                 console.log("resposta: ", resposta);
 
                 if (resposta.ok) {
-                    cardErro.style.display = "block";
+                    cardDeErro.style.display = "block";
                     /* 
                                         mensagem_erro.innerHTML =
                                             "Cadastro realizado com sucesso! Redirecionando para tela de Login..."; */
 
                     setTimeout(() => {
-                        window.location = "cadastro2.html";
+                        window.location = "login.html";
                     }, 1000);
 
                     limparFormulario();
@@ -156,11 +143,13 @@
         let senha = senha_input.value
         let senhaR = confirmacao_senha_input.value
         if (nome != "" && email != "" && senha != "" && senhaR != "" && senha == senhaR) {
-            cubosBox.style.display = `flex`
+            window.location = ""
         }else {
             cardDeErro.style.display = `flex`
+            cardDeErro.innerHTML = `<h1>Preencha todos os campos corretamente</h1>`
             setTimeout(() => {
                 cardDeErro.style.display = `none`
+                cardDeErro.innerHTML = ``
             }, 5000);
         }
     }

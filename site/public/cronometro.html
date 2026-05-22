@@ -95,8 +95,15 @@
     let record = 0
     function carregou() {
 
+        if (sessionStorage.getItem("CUBOS_USUARIO") == null)  {
+            console.log('não tem nada no cubos_usuario')
+            window.location = "cadastroCubo.html"
+        }else{
+            console.log(`Valor do CUBOS_USUARIO: ${sessionStorage.getItem("cubos_usuario")}`)
+            carregarLista()
+        }
 
-        carregarLista()
+
     }
 
 

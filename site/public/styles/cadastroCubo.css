@@ -1,0 +1,137 @@
+
+.cardDeErro {
+    display: none;
+    position: absolute;
+    right: 0px;
+    top: 150px;
+    color: rgb(255, 197, 197);
+    background: rgb(0, 0, 0);
+    border: solid 3px red;
+    padding: 14px;
+    border-radius: 19px;
+}
+
+.sessão-cadastro {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.473);
+}
+
+.backgroundCadastroLogin {
+    background-image: url(../images/loginback.png);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    
+
+}
+
+.cadastro-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: rgba(255, 255, 255, 0.149);
+    backdrop-filter: blur(8px);
+    border: solid rgb(201, 201, 201) 2px;
+    color: white;
+    padding: 20px 50px 20px 50px;
+    width: 370px;
+    height: 550px;
+    border-radius: 45px;
+    gap: 35px;
+}
+
+.cubos-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: rgba(255, 255, 255, 0.149);
+    backdrop-filter: blur(8px);
+    border: solid rgb(201, 201, 201) 2px;
+    color: white;
+    padding: 20px 50px 20px 50px;
+    width: 370px;
+    height: 550px;
+    border-radius: 45px;
+    gap: 100px;
+}
+
+.cadastro-box p, .cubos-box p {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    font-size: 32px;
+    font-family: Arial, Helvetica, sans-serif;
+    width: 300px;
+    margin-bottom: 0px;
+}
+
+.campos {
+    display: flex;
+    flex-direction: column;
+    margin-top: 0px;
+}
+
+.campo {
+    display: flex;
+    align-items: center ;
+    margin-top: 20px;
+    height: 50px;
+    width: 330px;
+}
+
+.senha {
+    margin-top: 45px;
+}
+
+.cadastro-box input, .cubos-box input {
+    height: 100%;
+    width: 100%;
+    border: 0px;
+    background-color: transparent;
+    color: white;
+    border-radius: 5px;
+    border-bottom: 1px solid white;
+    padding-left: 7px;
+    font-size: 17px;
+
+}
+
+.entrarCb {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgb(255, 255, 255);
+    background-color: green;
+    font-size: 26px;
+    margin-top: 45px;
+    padding: 18px 13px;
+    border-radius: 35px;
+    height: 13px;
+    width: 300px;
+}
+
+.cadastrob {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgb(255, 255, 255);
+    background-color: green;
+    font-size: 26px;
+    padding: 18px 13px;
+    border-radius: 35px;
+    height: 13px;
+    width: 300px;
+}
+
+.registrarb {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgb(255, 255, 255);
+}

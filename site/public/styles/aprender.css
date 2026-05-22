@@ -36,7 +36,7 @@ h1 {
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 400vh;
+    height: max-content;
     align-items: center;
     padding: 40px 290px 40px 290px;
     background-color: rgb(255, 255, 255);
@@ -70,12 +70,15 @@ h1 {
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 
-    max-content;
+    height: max-content;
 }
 
 .textos-segundasessao p {
     margin-top: 25px;
+}
+
+.tutorial {
+    height: max-content;
 }
 
 .tutorial h1 {
@@ -83,21 +86,36 @@ h1 {
 
 }
 
-.peçascontent {
+.peças-content {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 130px;
+    height: min-content;
 }
 
 .peças{
     display: flex;
+    height: max-content;
     gap: 70px;
+}
+
+.movimentos-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: max-content;
+}
+
+.movimentos-content p {
+    display: flex;
+    align-items: center;
 }
 
 
 .linhaPassoAPasso {
     display: flex;
+    height: max-content;
     width: max-content;
 }
 
@@ -111,242 +129,75 @@ h1 {
     width: 100%;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-.terceirasessao {
-    display: flex;
-    justify-content: center;
-    height: max-content;
-}
-
-.box-terceirasessao {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: max-content;
-    margin: 0px 35px;
-    margin-top: 140px;
-    margin-bottom: 85px;
-    padding: 40px 0px 40px 0px;
-    background-color: rgba(19, 19, 19, 0.904);
-    border: 1px solid white;
-    border-radius: 29px;
-    color: white;
-    font-family: 'Miletus Grotesk', sans-serif;
-    overflow: hidden;
-}
-
-.box-terceirasessao h1 {
-    padding: 0px 15px;
-    font-size: 58px;
-    width: max-content;
-}
-
-.box-terceirasessao img {
-    width: 700px;
-    border-radius: 29px;
-}
-
-.listaT {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 300px;
-    justify-content: center;
-    width: 100%;
-    margin-top: 300px;
-    margin-bottom: 300px;
-}
-
-.cronometro {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 100px;
-}
-
-.cronometro p {
-    text-indent: 40px;
-    font-size: 18px;
-    width: 600px;
-    padding: 50px;
-}
-
-.cronometro h1 {
-    border-left: 1px solid white;
-    font-size: 40px;
-}
-
-.sobremim {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 300px;
-    justify-content: center;
-    width: 100%;
-}
-
-.sobremim img {
-    height: 700px;
-    width: 550px;
-}
-
-.sobremim-content {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 100px;
-    width: 100%;
-
-}
-
-.sobremim-texto {
-    display: block;
-    text-indent: 40px;
-}
-
-
-/* Quarta sessao */
-
-
-.quartasessão {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
-.box-quartasessao {
-    display: flex;
-    width: 100%;
-    height: 70vh;
-    align-items: center;
-    justify-content: center;
-    padding: 40px 0px 40px 40px;
-    background-color: rgb(221, 221, 224);
-    color: black;
-    font-family: 'Miletus Grotesk', sans-serif;
-    overflow: hidden;
-
-}
-
-.box-quartasessao h1 {
-    border-bottom: 2px solid black;
-    padding-bottom: 20px;
-    font-size: 2.3rem;
-    color: black;
-    font-weight: bold;
-}
-
-.box-quartasessao p {
-    color: black;
-    font-size: 20px;
-    width: 550px;
-    margin-top: 50px;
-}
-
-.box-quartasessao img {
-    width: 50%;
-}
-
-.textos-quartasessao {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    height: 100%;
-    width: 100%;
-}
-
-.textos-quartasessao h1 {
-    margin-top: 0px;
-    width: max-content;
-}
-
-.cards {
-    display: flex;
-    justify-content: center;
-    text-justify: center;
-    gap: 75px;
-    margin-top: 25px;
-
-}
-
 .card {
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 270px;
+    justify-content: center;
+    height: max-content;
     width: 230px;
     border-radius: 10px;
+    text-justify: center;
+    gap: 75px;
+    margin-top: 25px;
 }
 
-.card img {
+.card img{
     height: 200px;
     border-radius: 20px;
     width: auto;
     border: 1px black solid;
 }
-.card p {
+.card p, .card_Fixo p{
     margin-top: 10px;
     text-align: center;
 }
 
-/* Quinta sessao */
-
-
-.quintasessao {
+.card_Fixo {
     display: flex;
-    justify-content: center;
+    position: fixed;
+    top: 0px;
+    align-items: center;
     height: max-content;
+    height: 90vh;
+    border-radius: 10px;
+    text-justify: center;
+    margin-top: 25px;
 }
 
-.box-quintasessao {
+.fixo_linha {
     display: flex;
+    gap: 3px;
+    margin-top: 3px;
+}
+
+.coluna_fixo {
+    display: none;
     flex-direction: column;
-    width: 100%;
-    height: max-content;
-    margin: 0px 35px;
-    margin-top: 85px;
-    margin-bottom: 85px;
-    padding: 40px;
-    background-color: #353434c0;
-    border: 1px solid white;
-    border-radius: 29px;
-    color: white;
-    font-family: 'Miletus Grotesk', sans-serif;
-    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.377);
+    padding: 20px 5px 20px 10px;
+    border-radius: 0px 20px 10px 20px;
 }
 
-.box-quintasessao h1 {
-    border-left: 1px solid white;
-    padding-left: 15px;
-    font-size: 50px;
-    margin-bottom: 60px;
+
+
+.card_Fixo img{
+    display: flex;
+    height: 90px;
+    border-radius: 20px;
+    width: auto;
+    border: 1px black solid;
 }
 
-.sobremim-texto h1 {
-    font-size: 40px;
-    margin-bottom: 50px;
+.buttãoEsconder {
+    background-color: rgb(160, 160, 160);
+    padding: 15px 5px 15px 0px;
+    border-radius: 0px 65px 65px 0px;
+    font-weight:900;
 }
 
-.box-quintasessao img {
-    width: 700px;
-    border-radius: 29px;
-}
-
-.sobremim-content p {
-    text-indent: 40px;
-    font-size: 18px;
-    width: 600px;
-    padding: 10px 50px;
+.buttãoEsconder img{
+    background-color: transparent;
+    border: 0px;
+    height: 46px;
 }

@@ -169,83 +169,17 @@
 
     let dadosUsuario = []
     function carregou() {
-        carregarDados()
-    }
-
-    function carregarDados() {
-        console.log(`carregarDadosChamada ${sessionStorage.getItem('NOME_USUARIO')}`)
-
-        if (sessionStorage.getItem('EMAIL_USUARIO') != null) {
-
-            fetch("/usuarios/puxarDadosUsuario", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    emailServer: sessionStorage.EMAIL_USUARIO,
-                })
-            }).then(function (resposta) {
-                console.log("ESTOU NO THEN DO entrar()!")
-
-                if (resposta.ok) {
-                    resposta.json().then(json => {
-
-                        dadosUsuario = []
-                        for (let i = 0; i < json.length; i++) {
-                            dadosUsuario.push({
-                                idUsuario: json[i].id,
-                                nome: json[i].nome,
-                                email: json[i].email
-                            })
-                        }
-
-                        olaUsuario.innerHTML = `<h1>Olá ${sessionStorage.NOME_USUARIO}</h1>`
-
-                        console.log(`tatetaerfdsaf`)
-                        botoesD.innerHTML = `
-                        <a class="sairb" onclick="logout()">Sair</a>
-                        <a class="botaoNavegar" href="#sobremim">Sobremim</a>
-                        <a class="botaoNavegar" href="#utilidades">Utilidades</a>
-                        <a class="botaoNavegar" href="#SBSite">Sobre o site</a>
-                        <a class="botaoNavegar" href="#inicio">Inicio</a>
-                        `
-
-                        começarB.innerHTML = `<a class="praticarB" id="começarB" href="./cronometro.html">Começar a praticar</a>`
-
-                        console.log("voce esta logado")
+        dadosUsuario = []
+        dadosUsuario.push({
+            idUsuario: sessionStorage.ID_USUARIO,
+            nome: sessionStorage.NOME_USUARIO,
+            email: sessionStorage.EMAIL_USUARIO
+        })
 
 
-
-
-
-
-
-
-
-
-
-
-
-                    })
-
-
-                } else {
-
-
-                    console.log("Houve um erro ao tentar realizar o login!");
-
-                    resposta.text().then(texto => {
-                        console.error(texto);
-                        // finalizarAguardar(texto);
-                    });
-                }
-
-            }).catch(function (erro) {
-                console.log(erro);
-            })
-        } else {
-            console.log("voce NÃO esta logado")
+        if (sessionStorage.getItem("NOME_USUARIO") == null) {
+            console.log('não esta logado')
+             console.log("voce NÃO esta logado")
 
             botoesD.innerHTML = `
                             <a class="entrarb" href="./login.html">Entrar</a>
@@ -258,10 +192,83 @@
 
             olaUsuario.innerHTML = ``
 
+        } else {
+            começarB.innerHTML = `<a class="praticarB" id="começarB" href="./cronometro.html">Começar a praticar</a>`
 
+            console.log("voce esta logado")
+
+            olaUsuario.innerHTML = `<h1>Olá ${sessionStorage.NOME_USUARIO}</h1>`
+
+            console.log(`tatetaerfdsaf`)
+            botoesD.innerHTML = `
+                        <a class="sairb" onclick="logout()">Sair</a>
+                        <a class="botaoNavegar" href="#sobremim">Sobremim</a>
+                        <a class="botaoNavegar" href="#utilidades">Utilidades</a>
+                        <a class="botaoNavegar" href="#SBSite">Sobre o site</a>
+                        <a class="botaoNavegar" href="#inicio">Inicio</a>
+                        `
         }
 
+
+
     }
+
+    // function carregarDados() {
+    //     console.log(`carregarDadosChamada ${sessionStorage.getItem('NOME_USUARIO')}`)
+
+    //     if (sessionStorage.getItem('EMAIL_USUARIO') != null) {
+
+    //         fetch("/usuarios/puxarDadosUsuario", {
+    //             method: "POST",
+    //             headers: {
+    //                 "Content-Type": "application/json"
+    //             },
+    //             body: JSON.stringify({
+    //                 emailServer: EMAIL_USUARIO,
+    //             })
+    //         }).then(function (resposta) {
+    //             console.log("ESTOU NO THEN DO entrar()!")
+
+    //             if (resposta.ok) {
+    //                 resposta.json().then(json => {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //                 })
+
+
+    //             } else {
+
+
+    //                 console.log("Houve um erro ao tentar realizar o login!");
+
+    //                 resposta.text().then(texto => {
+    //                     console.error(texto);
+    //                     // finalizarAguardar(texto);
+    //                 });
+    //             }
+
+    //         }).catch(function (erro) {
+    //             console.log(erro);
+    //         })
+    //     } else {
+           
+
+
+    //     }
+
+    // }
 
     function logout() {
         sessionStorage.removeItem("EMAIL_USUARIO")

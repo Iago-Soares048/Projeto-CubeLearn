@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./styles/styles.css">
+    <link rel="stylesheet" href="./styles/cadastroCubo.css">
+</head>
+
+<body class="backgroundCadastroLogin">
+    <header>
+        <div class="nav_bar">
+            <img src="./images/Logo+nome.png" alt="" class="logo">
+            <div class="botoesD areanav">
+                <a class="entrarb" href="./index.html">Voltar</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="sessão-cadastro">
+        <div id="cardDeErro" class="cardDeErro">
+            <h1>Preencha todos os campos corretamente</h1>
+        </div>
+        <div class="cubos-box" id="cubosBox">
+
+            <p>Quais cubos você tem?</p>
+            <div class="campo">
+                <input type="text" id="cubo_input" placeholder="Insira o nome de cadastro do seu cubo">
+            </div>
+
+            <div class="butoes">
+                <button class="cadastrob" onclick="cadastrar()">Cadastrar cubo</button>
+            </div>
+
+
+        </div>
+
+
+    </section>
+</body>
+
+</html>
+
+<script>
+    // Array para armazenar empresas cadastradas para validação de código de ativação 
+    let listaEmpresasCadastradas = [];
+
+    function cadastrar() {
+        // aguardar();
+
+        //Recupere o valor da nova input pelo nome do id
+        // Agora vá para o método fetch logo abaixo
+        var cuboVar = cubo_input.value;
+
+        // Verificando se há algum campo em branco
+        if (
+            cuboVar == ""
+        ) {
+
+            return false;
+        }
+
+
+        // Enviando o valor da nova input
+        fetch("cubos/cadastrarCubo", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                // crie um atributo que recebe o valor recuperado aqui
+                // Agora vá para o arquivo routes/usuario.js
+
+                cuboServer: cuboVar,
+                idServer: sessionStorage.ID_USUARIO
+            }),
+        })
+            .then(function (resposta) {
+                console.log("resposta: ", resposta);
+
+                if (resposta.ok) {
+
+                    cardDeErro.innerHTML = `<h1>Cubo cadastrado com sucesso</h1>`
+                    setTimeout(() => {
+                        sessionStorage.CUBOS_USUARIO = cuboVar
+                        window.location = "cronometro.html";
+                    }, 1000);
+
+                    
+
+
+
+                    //  finalizarAguardar();
+                } else {
+                    throw "Houve um errououououo ao tentar realizar o cadastro!";
+                }
+            })
+            .catch(function (resposta) {
+                console.log(`#ERROoo: ${resposta}`);
+                // finalizarAguardar();
+            });
+
+        return false;
+    }
+
+</script>

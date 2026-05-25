@@ -33,28 +33,49 @@ function cadastrarCubo(req, res) {
 
 }
 
+function puxarCubos(req, res) {
+    var id = req.body.idServer;
 
-function buscarMedidasEmTempoReal(req, res) {
+    if (id == undefined) {
+        res.status(400).send("Seu id está undefined!");
+    } else {
 
-    var idAquario = req.params.idAquario;
+        cubosModel.puxarCubos(id)
 
-    console.log(`Recuperando medidas em tempo real`);
+            .then(
+                function (resultadoCubos) {
+                    console.log(`\nResultados encontrados: ${resultadoCubos.length}`);
+                    console.log(`Resultados: ${JSON.stringify(resultadoCubos)}`); // transforma JSON em String
 
-    medidaModel.buscarMedidasEmTempoReal(idAquario).then(function (resultado) {
-        if (resultado.length > 0) {
-            res.status(200).json(resultado);
-        } else {
-            res.status(204).send("Nenhum resultado encontrado!")
-        }
-    }).catch(function (erro) {
-        console.log(erro);
-        console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
-        res.status(500).json(erro.sqlMessage);
-    });
+                    if (resultadoCubos.length > 0) {
+
+                        let dadosFormatados = resultadoCubos.map(registro => ({
+                            usuario: registro.usuario,
+                            modelo: registro.modelo,
+                            idCubo: registro.idCubo,
+                            
+                        }));
+                        res.json(dadosFormatados);
+
+                        
+                    }else {
+                        let dadosFormatados = []  
+                        res.json(dadosFormatados);
+                    }
+                }
+            ).catch(
+                function (erro) {
+                    console.log(erro);
+                    console.log("\nHouve um erro ao puxar os cubos! Erro: ", erro.sqlMessage);
+                    res.status(500).json(erro.sqlMessage);
+                }
+            );
+    }
+
 }
 
 module.exports = {
     cadastrarCubo,
-    buscarMedidasEmTempoReal
+    puxarCubos
 
 }

@@ -9,12 +9,6 @@ body {
   padding-top: 60px;
 }
 
-.cronometrob {
-    padding: 13px;
-    background-color: rgb(50, 177, 107);
-    border-radius: 24px;
-}
-
 .container {
   display: flex;
   padding: 20px;

@@ -8,4 +8,8 @@ router.post("/cadastrarCubo", function (req, res) {
     cubosController.cadastrarCubo(req, res);
 });
 
+router.post("/puxarCubos", function (req, res) {
+    cubosController.puxarCubos(req, res);
+});
+
 module.exports = router;

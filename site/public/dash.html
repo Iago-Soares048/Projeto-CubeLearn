@@ -14,10 +14,15 @@
 
 </head>
 
-<body onload="obterDados()"> <!-- Chamando a função obterDados ao carregar a página -->
+<body onload="carregou()"> <!-- Chamando a função obterDados ao carregar a página -->
+
   <header>
     <div class="nav_bar">
       <img src="./images/Logo+nome.png" alt="" class="logo">
+      <div class="cubosCronometro" id="cubosSelects">
+        <select name="" id="sel_cubos" class="sel_cubos" onchange="selectFunc()">
+        </select>
+      </div>
       <div class="botoesD areanav">
         <a class="entrarb" href="./index.html">Home</a>
         <a class="entrarb" href="./cronometro.html">Cronometro</a>
@@ -25,6 +30,7 @@
       </div>
     </div>
   </header>
+
   <div class="container">
 
     <div class="esquerda">
@@ -85,13 +91,6 @@
           <canvas id="linha"></canvas>
         </div>
       </section>
-      <section class="grafico-section2">
-        <h1 class="titulo-secao">Gráfico do Histórico de records</h1>
-
-        <div class="grafico-area">
-          <canvas id="linha"></canvas>
-        </div>
-      </section>
     </section>
 
 
@@ -110,19 +109,102 @@
   let piorTempo = 0
   let media = 0
   let media12 = 0
+  let cubos = []
+  let myChart = null
+  function carregou() {
+
+    sel_cubos.value = sessionStorage.getItem("CUBO_SELECIONADOID")
 
 
-  // Função chamada ao carregar a página para obter e processar os dados
-  function obterDados() {
+    fetch("/cubos/puxarCubos", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        idServer: sessionStorage.ID_USUARIO
+
+      })
+    }).then(function (resposta) {
+      console.log("ESTOU NO THEN DO entrar()!")
+
+      if (resposta.ok) {
+        console.log(`Respostaaaa . ok???${resposta}`);
+
+        resposta.json().then(json => {
+          console.log(json);
+          console.log(`Stringfy: ${JSON.stringify(json)}`);
+
+          if (JSON.stringify(json) != "[]") {
+
+            for (let i = 0; i < json.length; i++) {
+              let cuboAtual = json[i];
+              cubos.push({
+                cubo: cuboAtual.modelo,
+                dados: [],
+                idCubo: cuboAtual.idCubo
+              })
+            }
+            sessionStorage.CUBOS_USUARIO = `Tem ${cubos.length} Cubo(s)`
+
+            for (let i = 0; i < cubos.length; i++) {
+              let cuboAtual = cubos[i];
+
+              sel_cubos.innerHTML += `<option value="${i}">${cuboAtual.cubo}</option>`
+            }
+
+            if (sessionStorage.getItem("CUBOS_USUARIO") == null) {
+              console.log("vc n tem nenhum cubo selcoo")
+            } else {
+              console.log(`Valor do CUBOS_USUARIO: ${sessionStorage.getItem("cubos_usuario")}`)
+              carregarDados()
+            }
+
+
+          } else {
+            window.location = "cadastroCubo.html";
+          }
+          // apenas para exibir o loading
+
+        });
+
+      } else {
+
+        console.log("Houve um erro ao tentar realizar o login!");
+
+        resposta.text().then(texto => {
+          console.error(texto);
+          // finalizarAguardar(texto);
+        });
+      }
+
+    }).catch(function (erro) {
+      console.log(erro);
+      console.log('não tem nada na tabela cubo')
+      window.location = "cadastroCubo.html"
+    })
+
+    return false;
+
+
+
+
+
+
+
+  }
+
+  function carregarDados() {
+
     // Aqui seria a função que obteria os dados do banco de dados
-    // No caso, aqui você colocaria o fetch que teria o endereço da sua rota que você criou na pasta /routes e chamaria a função plotarGraficoLinha nessa função. Exemplo:
+    // No caso, aqui você colocaria o fetch que teria o endereço da sua rota que você criou na pasta /routes e chamaria a função  nessa função. Exemplo:
 
     // fetch('/obterDados')
     // .then(function(response){
     //   return response.json();
     // })
     // .then(function(data){
-    //   plotarGraficoLinha(data);
+    //   
     //   plotarGraficoBarra(data);
     // })
     // .catch(function(err){
@@ -145,18 +227,66 @@
 
       if (resposta.ok) {
         resposta.json().then(json => {
-          teste = json;
+          listaDeRegistros = json;
 
-          dados = []
-
-          for (let i = 0; i < teste.length; i++) {
-            dados.push({
-              Horario: json[i].horaDoRegistro,
-              Tempo: converterTempoParaNumero(json[i].tempoSolucao)
-            })
+          for (let i = 0; i < cubos.length; i++) {
+            cubos[i].dados = []
           }
-          plotarGraficoLinha(dados);
-          plotarHistorico(dados);
+
+          for (let i = 0; i < listaDeRegistros.length; i++) {
+            console.log(listaDeRegistros[i].modelo)
+            let registroAtual = listaDeRegistros[i]
+            let cuboDoRegistroAtual = listaDeRegistros[i].modelo
+
+            for (let y = 0; y < cubos.length; y++) {
+              let CuboPesquisadoAtual = cubos[y]
+              let nomeCuboPesquisadoAtual = cubos[y].cubo;
+
+              if (cuboDoRegistroAtual == nomeCuboPesquisadoAtual) {
+                CuboPesquisadoAtual.dados.push({
+                  tempoSolucao: listaDeRegistros[i].tempoSolucao,
+                  horario: listaDeRegistros[i].horaDoRegistro
+                })
+              }
+
+
+
+            }
+
+          }
+
+
+
+
+          /*          Usuario:${listaDeRegistros[0].usuario}<br> */
+          console.log(`é esse que eu queroAAAAAAA ${json}`);
+          console.log(JSON.stringify(json));
+
+
+
+          if (sessionStorage.getItem("CUBO_SELECIONADO") == null) {
+            sessionStorage.CUBO_SELECIONADOID = cubos[0].idCubo
+          }
+
+          let dadosDoCuboSelecionado = []
+
+          for (let i = 0; i < cubos.length; i++) {
+            if (cubos[i].cubo == cubos[sessionStorage.getItem("CUBO_SELECIONADO")]) {
+
+            }
+
+          }
+
+          setTimeout(() => {
+            plotarGraficoLinha(cubos[sel_cubos.value].dados)
+            plotarHistorico(cubos[sel_cubos.value].dados)
+          }, 20);
+
+
+
+
+
+
         })
 
 
@@ -183,18 +313,28 @@
     console.log(`teste:`)
   }
 
-function converterTempoParaNumero(tempo) {
+  function selectFunc() {
+    let cuboID = sel_cubos.value
+    sessionStorage.CUBO_SELECIONADOID = cubos[cuboID].idCubo
+    sessionStorage.CUBO_SELECIONADO = cuboID
+
+    plotarGraficoLinha(cubos[sel_cubos.value].dados)
+    plotarHistorico(cubos[sel_cubos.value].dados)
+    console.log(`Selecionou o cubo: ${cuboID}`)
+  }
+
+  function converterTempoParaNumero(tempo) {
     if (tempo.includes(":")) {
-        let posicaoDoisPontos = tempo.indexOf(":");
+      let posicaoDoisPontos = tempo.indexOf(":");
 
-        let minutos = Number(tempo.substring(0, posicaoDoisPontos));
-        let segundos = Number(tempo.substring(posicaoDoisPontos + 1));
+      let minutos = Number(tempo.substring(0, posicaoDoisPontos));
+      let segundos = Number(tempo.substring(posicaoDoisPontos + 1));
 
-        return (minutos * 60) + segundos;
+      return (minutos * 60) + segundos;
     } else {
-        return Number(tempo);
+      return Number(tempo);
     }
-}
+  }
 
 
   function formatarTempo(segundosTotais) {
@@ -219,13 +359,17 @@ function converterTempoParaNumero(tempo) {
     horarios = [];
 
     for (let i = 0; i < dados.length; i++) {
-      tempos.push(dados[i].Tempo);
-      horarios.push(dados[i].Horario.substring(11, 19)); // mostra só hora
+      tempos.push(dados[i].tempoSolucao);
+      horarios.push(dados[i].horario.substring(11, 19)); // mostra só hora
+    }
+
+    if (myChart) {
+      myChart.destroy();
     }
 
     var ctx = document.getElementById('linha').getContext('2d');
 
-    let myChart = new Chart(ctx, {
+    myChart = new Chart(ctx, {
       type: 'line',
       data: {
         labels: horarios,
@@ -255,12 +399,13 @@ function converterTempoParaNumero(tempo) {
           tooltip: {
             enabled: true,
             callbacks: {
-              title: function (context) {
+              label: function (context) {
                 return "Horário: " + context[0].label;
               },
               label: function (context) {
                 return "Tempo: " + formatarTempo(context.raw);
-              }
+              },
+
             }
           }
         }
@@ -277,9 +422,9 @@ function converterTempoParaNumero(tempo) {
     // CALCULO DO RECORDE
 
 
-    record = dados[0].Tempo
+    record = dados[0].tempoSolucao
     for (let i = 0; i < dados.length; i++) {
-      let tempoPAtual = dados[i].Tempo;
+      let tempoPAtual = dados[i].tempoSolucao;
       if (record > tempoPAtual) {
         record = tempoPAtual
       }
@@ -288,9 +433,9 @@ function converterTempoParaNumero(tempo) {
     // CALCULO DO PIOR TEMPO
 
 
-    piorTempo = dados[0].Tempo
+    piorTempo = dados[0].tempoSolucao
     for (let i = 0; i < dados.length; i++) {
-      let tempoPAtual = dados[i].Tempo;
+      let tempoPAtual = dados[i].tempoSolucao;
       if (piorTempo < tempoPAtual) {
         piorTempo = tempoPAtual
       }
@@ -302,24 +447,24 @@ function converterTempoParaNumero(tempo) {
 
 
 
-    let menorTempo12 = dados[0].Tempo
-    let maiorTempo12 = dados[0].Tempo
+    let menorTempo12 = dados[0].tempoSolucao
+    let maiorTempo12 = dados[0].tempoSolucao
     let avg12atual = 0;
     for (let i = 0; i < dados.length; i++) {
-      menorTempo12 = dados[0].Tempo
-      maiorTempo12 = dados[0].Tempo
+      menorTempo12 = dados[0].tempoSolucao
+      maiorTempo12 = dados[0].tempoSolucao
       avg12atual = 0;
       if (i >= 11) {
         for (let y = i; y > i - 12; y--) {
-          if (menorTempo12 > dados[y].Tempo) {
-            menorTempo12 = dados[y].Tempo
+          if (menorTempo12 > dados[y].tempoSolucao) {
+            menorTempo12 = dados[y].tempoSolucao
           }
 
-          if (maiorTempo12 < dados[y].Tempo) {
-            maiorTempo12 = dados[y].Tempo
+          if (maiorTempo12 < dados[y].tempoSolucao) {
+            maiorTempo12 = dados[y].tempoSolucao
           }
 
-          avg12atual += dados[y].Tempo
+          avg12atual += dados[y].tempoSolucao
         }
 
         if (!isNaN(avg12atual)) {
@@ -341,25 +486,25 @@ function converterTempoParaNumero(tempo) {
 
 
 
-    let menorTempo5 = dados[0].Tempo
-    let maiorTempo5 = dados[0].Tempo
+    let menorTempo5 = dados[0].tempoSolucao
+    let maiorTempo5 = dados[0].tempoSolucao
     let avg5atual = 0;
     for (let i = 0; i < dados.length; i++) {
-      menorTempo5 = dados[0].Tempo
-      maiorTempo5 = dados[0].Tempo
+      menorTempo5 = dados[0].tempoSolucao
+      maiorTempo5 = dados[0].tempoSolucao
       avg5atual = 0;
       if (i >= 4) {
         for (let y = i; y > i - 5; y--) {
 
-          if (menorTempo5 > dados[y].Tempo) {
-            menorTempo5 = dados[y].Tempo
+          if (menorTempo5 > dados[y].tempoSolucao) {
+            menorTempo5 = dados[y].tempoSolucao
           }
 
-          if (maiorTempo5 < dados[y].Tempo) {
-            maiorTempo5 = dados[y].Tempo
+          if (maiorTempo5 < dados[y].tempoSolucao) {
+            maiorTempo5 = dados[y].tempoSolucao
           }
 
-          avg5atual += dados[y].Tempo
+          avg5atual += dados[y].tempoSolucao
         }
 
         if (!isNaN(avg5atual)) {
@@ -381,7 +526,7 @@ function converterTempoParaNumero(tempo) {
 
     // EXIBIÇÃO NAS KPIs
 
-
+    lista_historico.innerHTML = ""
 
 
     if (dados.length < 12) {
@@ -403,12 +548,12 @@ function converterTempoParaNumero(tempo) {
 
     let contador = 1
     for (let i = dados.length - 1; i >= 0; i--) {
-      if (dados[i].Tempo == record) {
-        lista_historico.innerHTML += `<div class="solve-item record">Solve ${i + 1} - ${formatarTempo(dados[i].Tempo)} </div>`
-      } else if (dados[i].Tempo == piorTempo) {
-        lista_historico.innerHTML += `<div class="solve-item piorLinha">Solve ${i + 1} - ${formatarTempo(dados[i].Tempo)} </div>`
+      if (dados[i].tempoSolucao == record) {
+        lista_historico.innerHTML += `<div class="solve-item record">Solve ${i + 1} - ${formatarTempo(dados[i].tempoSolucao)} </div>`
+      } else if (dados[i].tempoSolucao == piorTempo) {
+        lista_historico.innerHTML += `<div class="solve-item piorLinha">Solve ${i + 1} - ${formatarTempo(dados[i].tempoSolucao)} </div>`
       } else {
-        lista_historico.innerHTML += `<div class="solve-item">Solve ${i + 1} - ${formatarTempo(dados[i].Tempo)} </div>`
+        lista_historico.innerHTML += `<div class="solve-item">Solve ${i + 1} - ${formatarTempo(dados[i].tempoSolucao)} </div>`
       }
       contador++
     }

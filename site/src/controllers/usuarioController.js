@@ -3,12 +3,12 @@ var usuarioModel = require("../models/usuarioModel");
 function cadastrarTemp(req, res) {
     // Crie uma variável que vá recuperar os valores do arquivo cadastro.html
     var tempo = req.body.tempoServer;
-    var email = req.body.emailServer;
+    var idCubo = req.body.idCuboServer;
 
     // Faça as validações dos valores
 
     // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
-    usuarioModel.cadastrarTemp(tempo)
+    usuarioModel.cadastrarTemp(tempo, idCubo)
         .then(
             function (resultado) {
                 res.json(resultado);
@@ -173,6 +173,7 @@ function cadastrar(req, res) {
         usuarioModel.cadastrar(nome, email, senha)
             .then(
                 function (resultado) {
+                    console.log(`then dooo cadastrarControlleeerrrrr`)
                     res.json(resultado);
                 }
             ).catch(

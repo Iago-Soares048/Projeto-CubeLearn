@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cronometro</title>
     <link rel="stylesheet" href="./styles/cronometro.css">
+    <link rel="stylesheet" href="./styles/styles.css">
+
 </head>
 
 <body onkeyup="soltou(event)" onkeydown="apertou(event)" onload="carregou()">
@@ -13,6 +15,10 @@
     <header>
         <div class="nav_bar">
             <img src="./images/Logo+nome.png" alt="" class="logo">
+            <div class="cubosCronometro" id="cubosSelects">
+                <select name="" id="sel_cubos" class="sel_cubos" onchange="selectFunc()">
+                </select>
+            </div>
             <div class="botoesD areanav">
                 <a class="entrarb" href="./index.html">Home</a>
                 <a class="entrarb" href="./dash.html">DashBoard</a>
@@ -24,10 +30,9 @@
 
         <div class="listabox" id="listabox">
             <div class="dadosListaBox">
-                <p class="cuboPag" id="cuboPag"></p>
+                <h1 class="tituloDados">Dados Atuais</h1>
                 <div class="kpisAtual">
-                    <h1>Atual</h1>
-                    <div>
+                    <div class="kpisAtual-Linha">
                         <div class="blocosLista">
                             <h1>AVG5:</h1><span id="avg5span"></span>
                         </div>
@@ -35,36 +40,31 @@
                             <h1>AVG12:</h1><span id="avg12span"></span>
                         </div>
                     </div>
-                    <div>
+                    <div class="kpisAtual-Linha">
+
                         <div class="blocosLista">
-                            <h1>Melhor tempo:</h1><span id="recordspan"></span>
+                            <h1>Melhor tempo:<div class="indicadorMelhorTempo"></div>
+                            </h1><span id="recordspan"></span>
+                        </div>
+
+                        <div class="blocosLista">
+                            <h1 class="tituloKPI">Pior tempo:<div class="indicadorPiorTempo"></div>
+                            </h1>
+                            <span id="piorTempoSpan"></span>
+
                         </div>
                     </div>
                 </div>
-                <div class="kpisMelhores">
-                    <h1>Atual</h1>
-                    <div>
-                        <div class="blocosLista">
-                            <h1>AVG5:</h1><span id="avg5span"></span>
-                        </div>
-                        <div class="blocosLista">
-                            <h1>AVG12:</h1><span id="avg12span"></span>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="blocosLista">
-                            <h1>Melhor tempo:</h1><span id="recordspan"></span>
-                        </div>
-                    </div>
-                </div>
+
             </div>
 
-            <div class="lista" id="lista">
+            <div class="lista_cronometro" id="lista">
+                <h1>AAAAAAAAA</h1>
                 <div class="titulosLista">
                     <span>Horario</span>
                     <span>Tempo da solve</span>
                 </div>
-                <div class="linhaLista">
+                <div id="linhasLista">
                 </div>
             </div>
         </div>
@@ -93,17 +93,329 @@
     let melhorMedia5 = 0
     let melhorMedia12 = 0
     let record = 0
+    let piorTempo = 0
+    let cubos = []
     function carregou() {
 
-        if (sessionStorage.getItem("CUBOS_USUARIO") == null)  {
-            console.log('não tem nada no cubos_usuario')
+
+        fetch("/cubos/puxarCubos", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                idServer: sessionStorage.ID_USUARIO
+
+            })
+        }).then(function (resposta) {
+            console.log("ESTOU NO THEN DO entrar()!")
+
+            if (resposta.ok) {
+                console.log(`Respostaaaa . ok???${resposta}`);
+
+                resposta.json().then(json => {
+                    console.log(json);
+                    console.log(`Stringfy: ${JSON.stringify(json)}`);
+
+                    if (JSON.stringify(json) != "[]") {
+
+                        for (let i = 0; i < json.length; i++) {
+                            let cuboAtual = json[i];
+                            cubos.push({
+                                cubo: cuboAtual.modelo,
+                                dados: [],
+                                idCubo: cuboAtual.idCubo
+                            })
+                        }
+                        sessionStorage.CUBOS_USUARIO = `Tem ${cubos.length} Cubo(s)`
+
+                        for (let i = 0; i < cubos.length; i++) {
+                            let cuboAtual = cubos[i];
+
+                            sel_cubos.innerHTML += `<option value="${i}">${cuboAtual.cubo}</option>`
+                        }
+
+                        if (sessionStorage.getItem("CUBOS_USUARIO") == null) {
+                            console.log("vc n tem nenhum cubo selcoo")
+                        } else {
+                            console.log(`Valor do CUBOS_USUARIO: ${sessionStorage.getItem("cubos_usuario")}`)
+                            carregarDados()
+                        }
+
+
+                    } else {
+                        window.location = "cadastroCubo.html";
+                    }
+                    // apenas para exibir o loading
+
+                });
+
+            } else {
+
+                console.log("Houve um erro ao tentar realizar o login!");
+
+                resposta.text().then(texto => {
+                    console.error(texto);
+                    // finalizarAguardar(texto);
+                });
+            }
+
+        }).catch(function (erro) {
+            console.log(erro);
+            console.log('não tem nada na tabela cubo')
             window.location = "cadastroCubo.html"
-        }else{
-            console.log(`Valor do CUBOS_USUARIO: ${sessionStorage.getItem("cubos_usuario")}`)
-            carregarLista()
+        })
+
+        return false;
+
+
+
+
+
+
+
+    }
+
+    function carregarDados() {
+
+        // Aqui seria a função que obteria os dados do banco de dados
+        // No caso, aqui você colocaria o fetch que teria o endereço da sua rota que você criou na pasta /routes e chamaria a função plotarGraficoLinha nessa função. Exemplo:
+
+        // fetch('/obterDados')
+        // .then(function(response){
+        //   return response.json();
+        // })
+        // .then(function(data){
+        //   plotarGraficoLinha(data);
+        //   plotarGraficoBarra(data);
+        // })
+        // .catch(function(err){
+        //   console.log(err);
+        // })
+
+        // Como eu não configurei as rotas, eu criei um array com os dados para simular a obtenção dos dados
+
+
+        fetch("/usuarios/puxarDados", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                emailServer: sessionStorage.EMAIL_USUARIO,
+            })
+        }).then(function (resposta) {
+            console.log("ESTOU NO THEN DO entrar()!")
+
+            if (resposta.ok) {
+                resposta.json().then(json => {
+                    listaDeRegistros = json;
+
+                    for (let i = 0; i < cubos.length; i++) {
+                        cubos[i].dados = []
+                    }
+
+                    for (let i = 0; i < listaDeRegistros.length; i++) {
+                        console.log(listaDeRegistros[i].modelo)
+                        let registroAtual = listaDeRegistros[i]
+                        let cuboDoRegistroAtual = listaDeRegistros[i].modelo
+
+                        for (let y = 0; y < cubos.length; y++) {
+                            let CuboPesquisadoAtual = cubos[y]
+                            let nomeCuboPesquisadoAtual = cubos[y].cubo;
+
+                            if (cuboDoRegistroAtual == nomeCuboPesquisadoAtual) {
+                                CuboPesquisadoAtual.dados.push({
+                                    tempoSolucao: listaDeRegistros[i].tempoSolucao,
+                                    horario: listaDeRegistros[i].horaDoRegistro
+                                })
+                            }
+
+
+
+                        }
+
+                    }
+
+
+
+
+                    /*          Usuario:${listaDeRegistros[0].usuario}<br> */
+                    console.log(`é esse que eu queroAAAAAAA ${json}`);
+                    console.log(JSON.stringify(json));
+
+
+
+                    if (sessionStorage.getItem("CUBO_SELECIONADO") == null) {
+                        sessionStorage.CUBO_SELECIONADOID = cubos[0].idCubo
+                    }
+
+                    setTimeout(() => {
+                        carregarPagina(sessionStorage.getItem("CUBO_SELECIONADO"))
+                    }, 20);
+
+
+
+
+
+
+                })
+
+
+            } else {
+
+
+                console.log("Houve um erro ao tentar realizar o login!");
+
+                resposta.text().then(texto => {
+                    console.error(texto);
+                    // finalizarAguardar(texto);
+                });
+            }
+
+        }).catch(function (erro) {
+            console.log(erro);
+        })
+
+
+        // Chamando a função para plotar o gráfico de linha com os dados
+        // Chamando a função para plotar o gráfico de barra com os dados
+
+
+        console.log(`teste:`)
+    }
+
+    function carregarPagina(cuboID) {
+        zerarAPagina()
+        sel_cubos.value = sessionStorage.getItem("CUBO_SELECIONADO")
+
+
+        let dadosCubo = cubos[cuboID].dados
+
+        record = dadosCubo[0].tempoSolucao
+        piorTempo = dadosCubo[0].tempoSolucao
+
+
+        for (let i = dadosCubo.length - 1; i >= 0; i--) {
+            let tempoPAtual = dadosCubo[i].tempoSolucao;
+            if (record > tempoPAtual) {
+                record = tempoPAtual
+            }
+
+            if (piorTempo < tempoPAtual) {
+                piorTempo = tempoPAtual
+            }
         }
 
 
+        linhasLista.innerHTML = ``
+        for (let y = dadosCubo.length - 1; y >= 0; y--) {
+            let dadoAtual = dadosCubo[y];
+
+            if (dadoAtual.tempoSolucao == record) {
+                linhasLista.innerHTML += `<div class="linhaLista record">
+                        <span>${dadoAtual.horario.substring(12, dadoAtual.horario.length)}</span>
+                    <span>${dadoAtual.tempoSolucao}</span>
+                    </div>`
+
+            } else if (dadoAtual.tempoSolucao == piorTempo) {
+                linhasLista.innerHTML += `<div class="linhaLista piorTempo">
+                        <span>${dadoAtual.horario.substring(12, dadoAtual.horario.length)}</span>
+                    <span>${dadoAtual.tempoSolucao}</span>
+                    </div>`
+
+            } else {
+                linhasLista.innerHTML += `<div class="linhaLista">
+                        <span>${dadoAtual.horario.substring(12, dadoAtual.horario.length)}</span>
+                    <span>${dadoAtual.tempoSolucao}</span>
+                    </div>`
+            }
+
+        }
+
+
+
+        mediaAtual = 0
+        media12Atual = 0
+        let maiorDaMedia12 = converterTempoParaNumero(dadosCubo[dadosCubo.length - 1].tempoSolucao)
+        let maiorDaMedia5 = converterTempoParaNumero(dadosCubo[dadosCubo.length - 1].tempoSolucao)
+        let menorDaMedia12 = converterTempoParaNumero(dadosCubo[dadosCubo.length - 1].tempoSolucao)
+        let menorDaMedia5 = converterTempoParaNumero(dadosCubo[dadosCubo.length - 1].tempoSolucao)
+
+
+        for (let i = dadosCubo.length - 1; i >= 0 && i >= dadosCubo.length - 12; i--) {
+            let dadosCuboAtual = converterTempoParaNumero(dadosCubo[i].tempoSolucao)
+
+
+            if (i > dadosCubo.length - 6 && dadosCubo.length >= 5) {
+                mediaAtual += dadosCuboAtual
+
+                if (dadosCuboAtual > maiorDaMedia5) {
+                    maiorDaMedia5 = dadosCuboAtual
+                }
+
+                if (dadosCuboAtual < menorDaMedia5) {
+                    menorDaMedia5 = dadosCuboAtual
+                }
+            }
+
+
+
+
+
+
+            if (i >= dadosCubo.length - 12 && dadosCubo.length >= 12) {
+                media12Atual += dadosCuboAtual
+
+                if (dadosCuboAtual > maiorDaMedia12) {
+                    maiorDaMedia12 = dadosCuboAtual
+                }
+
+
+                if (dadosCuboAtual < menorDaMedia12) {
+                    menorDaMedia12 = dadosCuboAtual
+                }
+            }
+
+
+
+
+
+        }
+
+        if (!isNaN(mediaAtual) && dadosCubo.length >= 5) {
+            mediaAtual = formatarTempo((mediaAtual - maiorDaMedia5 - menorDaMedia5) / 3)
+        } else {
+            mediaAtual = 0
+        }
+
+        if (!isNaN(media12Atual) && dadosCubo.length >= 12) {
+            media12Atual = formatarTempo((media12Atual - maiorDaMedia12 - menorDaMedia12) / 10)
+        } else {
+            media12Atual = 0
+        }
+
+
+
+
+
+        medias.innerHTML = `<span>AVG5: ${mediaAtual}</span>
+                    <span>AVG12: ${media12Atual} </span>`
+
+        avg5span.innerHTML = mediaAtual
+        avg12span.innerHTML = media12Atual
+        recordspan.innerHTML = record
+        piorTempoSpan.innerHTML = piorTempo
+
+    }
+
+    function selectFunc() {
+        let cuboID = sel_cubos.value
+        sessionStorage.CUBO_SELECIONADOID = cubos[cuboID].idCubo
+        sessionStorage.CUBO_SELECIONADO = cuboID
+
+        carregarPagina(cuboID)
+        console.log(`Selecionou o cubo: ${cuboID}`)
     }
 
 
@@ -180,52 +492,25 @@
 
     function parar() {
 
+        zerarAPagina()
 
-        sessaopagcronometro.innerHTML = `
-        <div class="listabox" id="listabox">
-            <div class="dadosListaBox">
-                <h1 class="cuboPag" id="cuboPag"></h1>
-                <span>AVG5: ${mediaAtual} </span>
-                <span>AVG12: ${media12Atual} </span>
-            </div>
-
-            <div class="lista" id="lista">
-                <div class="titulosLista">
-                    <span>Horario</span>
-                    <span>Tempo da solve</span>
-                </div>
-                <div class="linhaLista">
-                </div>
-            </div>
-        </div>
-
-        <div class="cronometro-content">
-
-            <div class="cronometroBox">
-                <p class="timer numbers" id="timer">${tempoAtual}</p>
-                <div class="medias" id="medias">
-                    <span id="avg5span">AVG5: </span>
-                    <span id="avg12span">AVG12: </span>
-                    <span id="recordspan">Melhor tempo: </span>
-                </div>
-            </div>
-        </div>
-        </div>
-        `
         clearInterval(intervalo);
         intervalo = null
         historicoTempos.push(timerDisplay)
-
-
         inserir(timerDisplay)
+
         setTimeout(() => {
-            carregarLista()
-        }, 7);
+            carregarDados()
+        }, 17);
+
+
+
 
     }
 
     function inserir(tempoInserir) {
         let tempoInserirLet = tempoInserir
+        let idCubo = sessionStorage.getItem("CUBO_SELECIONADO")
 
         fetch("/usuarios/inserir", {
             method: "POST",
@@ -237,7 +522,7 @@
                 // Agora vá para o arquivo routes/usuario.js
 
                 tempoServer: tempoInserirLet,
-                emailServer: sessionStorage.EMAIL_USUARIO
+                idCuboServer: idCubo
             }),
         })
             .then(function (resposta) {
@@ -258,142 +543,6 @@
             });
     }
 
-
-
-    function carregarLista() {
-
-        // Aqui seria a função que obteria os dados do banco de dados
-        // No caso, aqui você colocaria o fetch que teria o endereço da sua rota que você criou na pasta /routes e chamaria a função plotarGraficoLinha nessa função. Exemplo:
-
-        // fetch('/obterDados')
-        // .then(function(response){
-        //   return response.json();
-        // })
-        // .then(function(data){
-        //   plotarGraficoLinha(data);
-        //   plotarGraficoBarra(data);
-        // })
-        // .catch(function(err){
-        //   console.log(err);
-        // })
-
-        // Como eu não configurei as rotas, eu criei um array com os dados para simular a obtenção dos dados
-
-
-        fetch("/usuarios/puxarDados", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                emailServer: sessionStorage.EMAIL_USUARIO,
-            })
-        }).then(function (resposta) {
-            console.log("ESTOU NO THEN DO entrar()!")
-
-            if (resposta.ok) {
-                resposta.json().then(json => {
-                    teste = json;
-
-                    dados = []
-                    for (let i = 0; i < teste.length; i++) {
-                        dados.push({
-                            Usuario: json[i].usuario,
-                            Horario: json[i].horaDoRegistro,
-                            Tempo: json[i].tempoSolucao,
-                            Modelo: json[i].modelo
-                        })
-                    }
-
-                    for (let i = dados.length - 1; i >= 0; i--) {
-                        lista.innerHTML += `<div class="linhaLista"> 
-                    <span>${dados[i].Horario.substring(12, dados[i].Horario.length)}</span>
-                    <span>${dados[i].Tempo}</span>
-                        `
-                    }
-
-                    mediaAtual = 0
-                    media12Atual = 0
-
-
-                    for (let i = dados.length - 1; i >= 0 && i > dados.length - 13; i--) {
-                        if (i > dados.length - 6 && dados.length >= 5) {
-                            console.log(`media5: ${mediaAtual}`)
-                            mediaAtual += converterTempoParaNumero(dados[i].Tempo)
-                        }
-
-                        if (dados.length >= 12) {
-                            media12Atual += converterTempoParaNumero(dados[i].Tempo)
-                        }
-                    }
-
-                    if (!isNaN(mediaAtual)) {
-                        mediaAtual = formatarTempo(mediaAtual / 5)
-                    } else {
-                        mediaAtual = 0
-                    }
-
-                    if (!isNaN(media12Atual)) {
-                        media12Atual = formatarTempo(media12Atual / 12)
-                    } else {
-                        media12Atual = 0
-                    }
-
-                    record = dados[0].Tempo
-
-                    for (let i = 0; i < dados.length; i++) {
-                        let tempoPAtual = dados[i].Tempo;
-                        if (record > tempoPAtual) {
-                            record = tempoPAtual
-                        }
-
-
-
-                        medias.innerHTML = `<span>AVG5: ${mediaAtual}</span>
-                    <span>AVG12: ${media12Atual} </span>`
-
-                        cuboPag.innerHTML = `<div class="dadoLista">Cubo:${dados[0].Modelo}</div>`
-
-                        avg5span.innerHTML = converterTempoParaNumero(mediaAtual)
-                        avg12span.innerHTML = media12Atual
-                        recordspan.innerHTML = record
-
-
-
-                        /*          Usuario:${teste[0].usuario}<br> */
-                        console.log(`é esse que eu quero ${json}`);
-                        console.log(JSON.stringify(json));
-
-
-                    }
-
-
-                })
-
-
-            } else {
-
-
-                console.log("Houve um erro ao tentar realizar o login!");
-
-                resposta.text().then(texto => {
-                    console.error(texto);
-                    // finalizarAguardar(texto);
-                });
-            }
-
-        }).catch(function (erro) {
-            console.log(erro);
-        })
-
-
-        // Chamando a função para plotar o gráfico de linha com os dados
-        // Chamando a função para plotar o gráfico de barra com os dados
-
-
-        console.log(`teste:`)
-    }
-
     function carregarMelhores() {
 
     }
@@ -411,12 +560,18 @@
         let minutos = Math.floor(segundosTotais / 60);
         let segundos = (segundosTotais % 60).toFixed(1);
 
-        if (segundos < 10) {
-            segundos = "0" + segundos;
+
+        if (minutos > 0) {
+            if (segundos < 10) {
+                segundos = "0" + segundos;
+            }
+            return `${String(minutos).padStart(2, "0")}:${segundos}`;
+        } else {
+            return `${segundos}`;
+
         }
 
 
-        return `${String(minutos).padStart(2, "0")}:${segundos}`;
     }
 
     function calcularMelhorMedia() {
@@ -496,6 +651,68 @@
             }
 
         }
+    }
+
+    function zerarAPagina() {
+
+        if (tempoAtual == "") {
+            tempoAtual = "00:00.0"
+        }
+
+        sessaopagcronometro.innerHTML = `
+        <div class="listabox" id="listabox">
+             <div class="dadosListaBox">
+                <h1>Dados Atuais</h1>
+                <div class="kpisAtual">
+                    <div class="kpisAtual-Linha">
+                        <div class="blocosLista">
+                            <h1>AVG5:</h1><span id="avg5span"></span>
+                        </div>
+                        <div class="blocosLista">
+                            <h1>AVG12:</h1><span id="avg12span"></span>
+                        </div>
+                    </div>
+                    <div class="kpisAtual-Linha">
+
+                       <div class="blocosLista">
+                            <h1>Melhor tempo:<div class="indicadorMelhorTempo"></div>
+                            </h1><span id="recordspan"></span>
+                        </div>
+
+                        <div class="blocosLista">
+                            <h1 class="tituloKPI">Pior tempo:<div class="indicadorPiorTempo"></div></h1>
+                            <span id="piorTempoSpan"></span>
+                        </div>
+                        
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="lista_cronometro" id="lista">
+                <div class="titulosLista">
+                    <span>Horario</span>
+                    <span>Tempo da solve</span>
+                </div>
+                <div id="linhasLista">
+                </div>
+            </div>
+        </div>
+
+        <div class="cronometro-content">
+
+            <div class="cronometroBox">
+                <p class="timer numbers" id="timer">${tempoAtual}</p>
+                <div class="medias" id="medias">
+                    <span id="avg5span">AVG5: </span>
+                    <span id="avg12span">AVG12: </span>
+                </div>
+            </div>
+        </div>
+        </div>
+        `
+
+
     }
 
 

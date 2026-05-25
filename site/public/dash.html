@@ -111,9 +111,10 @@
   let media12 = 0
   let cubos = []
   let myChart = null
-  function carregou() {
 
-    sel_cubos.value = sessionStorage.getItem("CUBO_SELECIONADOID")
+  sel_cubos.value = sessionStorage.getItem('CUBO_SELECIONADOID')
+
+  function carregou() {
 
 
     fetch("/cubos/puxarCubos", {
@@ -236,11 +237,11 @@
           for (let i = 0; i < listaDeRegistros.length; i++) {
             console.log(listaDeRegistros[i].modelo)
             let registroAtual = listaDeRegistros[i]
-            let cuboDoRegistroAtual = listaDeRegistros[i].modelo
+            let cuboDoRegistroAtual = listaDeRegistros[i].idCubo
 
             for (let y = 0; y < cubos.length; y++) {
               let CuboPesquisadoAtual = cubos[y]
-              let nomeCuboPesquisadoAtual = cubos[y].cubo;
+              let nomeCuboPesquisadoAtual = cubos[y].idCubo;
 
               if (cuboDoRegistroAtual == nomeCuboPesquisadoAtual) {
                 CuboPesquisadoAtual.dados.push({
@@ -278,8 +279,8 @@
           }
 
           setTimeout(() => {
-            plotarGraficoLinha(cubos[sel_cubos.value].dados)
-            plotarHistorico(cubos[sel_cubos.value].dados)
+            plotarGraficoLinha(cubos[sessionStorage.getItem("CUBO_SELECIONADO")].dados)
+            plotarHistorico(cubos[sessionStorage.getItem("CUBO_SELECIONADO")].dados)
           }, 20);
 
 
@@ -318,8 +319,8 @@
     sessionStorage.CUBO_SELECIONADOID = cubos[cuboID].idCubo
     sessionStorage.CUBO_SELECIONADO = cuboID
 
-    plotarGraficoLinha(cubos[sel_cubos.value].dados)
-    plotarHistorico(cubos[sel_cubos.value].dados)
+    plotarGraficoLinha(cubos[sessionStorage.getItem("CUBO_SELECIONADO")].dados)
+    plotarHistorico(cubos[sessionStorage.getItem("CUBO_SELECIONADO")].dados)
     console.log(`Selecionou o cubo: ${cuboID}`)
   }
 

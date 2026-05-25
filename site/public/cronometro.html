@@ -218,11 +218,11 @@
                     for (let i = 0; i < listaDeRegistros.length; i++) {
                         console.log(listaDeRegistros[i].modelo)
                         let registroAtual = listaDeRegistros[i]
-                        let cuboDoRegistroAtual = listaDeRegistros[i].modelo
+                        let cuboDoRegistroAtual = listaDeRegistros[i].idCubo
 
                         for (let y = 0; y < cubos.length; y++) {
                             let CuboPesquisadoAtual = cubos[y]
-                            let nomeCuboPesquisadoAtual = cubos[y].cubo;
+                            let nomeCuboPesquisadoAtual = cubos[y].idCubo;
 
                             if (cuboDoRegistroAtual == nomeCuboPesquisadoAtual) {
                                 CuboPesquisadoAtual.dados.push({
@@ -447,7 +447,6 @@
     let dMilissegundos = 0;
     let intervalo;
     let tempoInicio;
-    let historicoTempos = []
     let timerDisplay = ""
 
     function iniciar() {
@@ -496,7 +495,6 @@
 
         clearInterval(intervalo);
         intervalo = null
-        historicoTempos.push(timerDisplay)
         inserir(timerDisplay)
 
         setTimeout(() => {
@@ -510,7 +508,7 @@
 
     function inserir(tempoInserir) {
         let tempoInserirLet = tempoInserir
-        let idCubo = sessionStorage.getItem("CUBO_SELECIONADO")
+        let idCubo = sessionStorage.getItem("CUBO_SELECIONADOID")
 
         fetch("/usuarios/inserir", {
             method: "POST",

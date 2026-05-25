@@ -99,7 +99,8 @@ function puxarDados(req, res) {
                         estilo: registro.estilo,
                         usuario: registro.usuario,
                         modelo: registro.modelo,
-                        solucaoDescricao: registro.solucaoDescricao
+                        solucaoDescricao: registro.solucaoDescricao,
+                        idCubo: registro.idCubo
                     }));
 
                     res.json(dadosFormatados);

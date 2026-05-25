@@ -3,7 +3,7 @@ var database = require("../database/config")
 function puxarDados(email) {
     console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function entrar(): ", email)
     var instrucaoSql = `
-        select Usuario.nome as usuario, Usuario.email as email, Cubo.modelo as modelo, horaDoRegistro, tempoSolucao from Usuarios as Usuario 
+        select Usuario.nome as usuario, Usuario.email as email, Cubo.modelo as modelo, horaDoRegistro, tempoSolucao, Cubo.idCubo from Usuarios as Usuario 
  join cubo as Cubo on Usuario.idUsuario = Cubo.idUsuario
  join registroDeTempo on registroDeTempo.idCubo = Cubo.idCubo
  WHERE email = '${email}';

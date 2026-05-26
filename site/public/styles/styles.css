@@ -1,10 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Titan+One&display=swap');
+@import url('https://googleapis.com');
 
 * {
     margin: 0;
     padding: 0;
     text-decoration: none;
+    font-family: 'Rubik', sans-serif;
 }
+
+
 
 * button {
     background-color: transparent;
@@ -14,8 +18,8 @@
 }
 
 a {
-    color: black;
     cursor: pointer;
+    color: black;
 }
 
 button {
@@ -30,7 +34,7 @@ header {
     display: flex;
     height: 70px;
     width: 100%;
-    justify-content: center;   
+    justify-content: center;
     z-index: 1000;
     position: fixed;
     top: 0;
@@ -47,7 +51,7 @@ header {
     background-color: rgba(47, 47, 47, 0.149);
     backdrop-filter: blur(8px);
     padding: 11px 35px;
-    font-family: "Helvetica Now Display",sans-serif;
+    font-family: "Helvetica Now Display", sans-serif;
     font-weight: 600;
 }
 
@@ -86,7 +90,7 @@ header {
 .entrarb {
     font-size: 18px;
     padding: 13px;
-    background-color: rgb(29, 211, 29);
+    background-color: rgb(31 191 31);
     border-radius: 24px;
 }
 

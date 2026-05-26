@@ -20,6 +20,7 @@
     </header>
 
     <section class="sessão-cadastro">
+        
         <div class="cadastro-box">
             <p>Bem vindo de volta!</p>
             <div>
@@ -33,8 +34,9 @@
                 <a onclick="entrar()" class="entrarCb">Entrar</a>
             </div>
             <a class="registrarb" href="./cadastroUser.html">Não tem conta? Crie uma</a>
-
+            
         </div>
+        <div id="cardDeErro" class="cardDeErro"></div>
     </section>
 </body>
 
@@ -49,9 +51,13 @@
         var senhaVar = senha_input.value;
 
         if (emailVar == "" || senhaVar == "") {
-            cardErro.style.display = "block"
-            mensagem_erro.innerHTML = "(Mensagem de erro para todos os campos em branco)";
-           // finalizarAguardar();
+            cardDeErro.style.display = `flex`
+            cardDeErro.innerHTML = `<span>Preencha todos os campos!</span>`
+            setTimeout(() => {
+                cardDeErro.style.display = `none`
+                cardDeErro.innerHTML = ``
+            }, 5000);
+
             return false;
         }
 
@@ -89,7 +95,12 @@
 
             } else {
 
-                console.log("Houve um erro ao tentar realizar o login!");
+                cardDeErro.style.display = `flex`
+            cardDeErro.innerHTML = `<span>Usuário ou senha incorretos</span>`
+            setTimeout(() => {
+                cardDeErro.style.display = `none`
+                cardDeErro.innerHTML = ``
+            }, 5000);
 
                 resposta.text().then(texto => {
                     console.error(texto);

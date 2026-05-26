@@ -56,12 +56,12 @@
           <div class="kpi-cards">
             <div class="kpi-card">
               <h2>Tempo Record</h2>
-              <p id="kpi_record">00:12.87</p>
+              <p id="kpi_record"></p>
             </div>
 
             <div class="kpi-card">
               <h2>Pior Tempo</h2>
-              <p id="kpi_pior">00:18.92</p>
+              <p id="kpi_pior"></p>
             </div>
           </div>
 
@@ -69,12 +69,12 @@
 
             <div class="kpi-card">
               <h2>Melhor AVG12</h2>
-              <p id="kpi_avg12">00:14.21</p>
+              <p id="kpi_avg12"></p>
             </div>
 
             <div class="kpi-card">
               <h2>Melhor AVG5</h2>
-              <p id="kpi_avg5">00:13.54</p>
+              <p id="kpi_avg5"></p>
             </div>
           </div>
         </div>
@@ -417,15 +417,17 @@
 
   function plotarHistorico(dados) {
 
+    media = 0
+    media12 = 0
 
 
 
     // CALCULO DO RECORDE
 
 
-    record = dados[0].tempoSolucao
+    record = converterTempoParaNumero(dados[0].tempoSolucao)
     for (let i = 0; i < dados.length; i++) {
-      let tempoPAtual = dados[i].tempoSolucao;
+      let tempoPAtual = converterTempoParaNumero(dados[i].tempoSolucao);
       if (record > tempoPAtual) {
         record = tempoPAtual
       }
@@ -434,9 +436,9 @@
     // CALCULO DO PIOR TEMPO
 
 
-    piorTempo = dados[0].tempoSolucao
+    piorTempo = converterTempoParaNumero(dados[0].tempoSolucao)
     for (let i = 0; i < dados.length; i++) {
-      let tempoPAtual = dados[i].tempoSolucao;
+      let tempoPAtual = converterTempoParaNumero(dados[i].tempoSolucao);
       if (piorTempo < tempoPAtual) {
         piorTempo = tempoPAtual
       }
@@ -448,24 +450,25 @@
 
 
 
-    let menorTempo12 = dados[0].tempoSolucao
-    let maiorTempo12 = dados[0].tempoSolucao
+    let menorTempo12 = converterTempoParaNumero(dados[0].tempoSolucao)
+    let maiorTempo12 = converterTempoParaNumero(dados[0].tempoSolucao)
     let avg12atual = 0;
     for (let i = 0; i < dados.length; i++) {
-      menorTempo12 = dados[0].tempoSolucao
-      maiorTempo12 = dados[0].tempoSolucao
+      menorTempo12 = converterTempoParaNumero(dados[0].tempoSolucao)
+      maiorTempo12 = converterTempoParaNumero(dados[0].tempoSolucao)
       avg12atual = 0;
       if (i >= 11) {
         for (let y = i; y > i - 12; y--) {
-          if (menorTempo12 > dados[y].tempoSolucao) {
-            menorTempo12 = dados[y].tempoSolucao
+          let dadoAtualp =  converterTempoParaNumero(dados[y].tempoSolucao)
+          if (menorTempo12 > dadoAtualp) {
+            menorTempo12 = dadoAtualp
           }
 
-          if (maiorTempo12 < dados[y].tempoSolucao) {
-            maiorTempo12 = dados[y].tempoSolucao
+          if (maiorTempo12 < dadoAtualp) {
+            maiorTempo12 = dadoAtualp
           }
 
-          avg12atual += dados[y].tempoSolucao
+          avg12atual += dadoAtualp
         }
 
         if (!isNaN(avg12atual)) {
@@ -486,26 +489,26 @@
     // CALCULO DO MELHOR AVG5
 
 
-
-    let menorTempo5 = dados[0].tempoSolucao
-    let maiorTempo5 = dados[0].tempoSolucao
+    let menorTempo5 = converterTempoParaNumero(dados[0].tempoSolucao)
+    let maiorTempo5 = converterTempoParaNumero(dados[0].tempoSolucao)
     let avg5atual = 0;
     for (let i = 0; i < dados.length; i++) {
-      menorTempo5 = dados[0].tempoSolucao
-      maiorTempo5 = dados[0].tempoSolucao
+      menorTempo5 = converterTempoParaNumero(dados[0].tempoSolucao)
+      maiorTempo5 = converterTempoParaNumero(dados[0].tempoSolucao)
       avg5atual = 0;
       if (i >= 4) {
         for (let y = i; y > i - 5; y--) {
+          let dadoAtualp = converterTempoParaNumero(dados[y].tempoSolucao)
 
-          if (menorTempo5 > dados[y].tempoSolucao) {
-            menorTempo5 = dados[y].tempoSolucao
+          if (menorTempo5 > dadoAtualp) {
+            menorTempo5 = dadoAtualp
           }
 
-          if (maiorTempo5 < dados[y].tempoSolucao) {
-            maiorTempo5 = dados[y].tempoSolucao
+          if (maiorTempo5 < dadoAtualp) {
+            maiorTempo5 = dadoAtualp
           }
 
-          avg5atual += dados[y].tempoSolucao
+          avg5atual += dadoAtualp
         }
 
         if (!isNaN(avg5atual)) {
@@ -549,9 +552,10 @@
 
     let contador = 1
     for (let i = dados.length - 1; i >= 0; i--) {
-      if (dados[i].tempoSolucao == record) {
+      let tempoAtual = converterTempoParaNumero(dados[i].tempoSolucao)
+      if (tempoAtual == record) {
         lista_historico.innerHTML += `<div class="solve-item record">Solve ${i + 1} - ${formatarTempo(dados[i].tempoSolucao)} </div>`
-      } else if (dados[i].tempoSolucao == piorTempo) {
+      } else if (tempoAtual == piorTempo) {
         lista_historico.innerHTML += `<div class="solve-item piorLinha">Solve ${i + 1} - ${formatarTempo(dados[i].tempoSolucao)} </div>`
       } else {
         lista_historico.innerHTML += `<div class="solve-item">Solve ${i + 1} - ${formatarTempo(dados[i].tempoSolucao)} </div>`

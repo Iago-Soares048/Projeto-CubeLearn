@@ -1,14 +1,13 @@
 
 .cardDeErro {
-    display: none;
-    position: absolute;
-    right: 0px;
-    top: 150px;
-    color: rgb(255, 197, 197);
-    background: rgb(0, 0, 0);
-    border: solid 3px red;
-    padding: 14px;
-    border-radius: 19px;
+    display: flex;
+    position:absolute;
+    bottom: 40px;
+    color: rgb(253, 207, 207);
+    background: rgba(0, 0, 0, 0);
+    font-size: 20px;
+    border-bottom: solid 1px red;
+    padding: 4px;
 }
 
 .sessão-cadastro {
@@ -29,6 +28,8 @@
 
 }
 
+
+
 .cadastro-box {
     display: flex;
     align-items: center;
@@ -43,6 +44,11 @@
     height: 550px;
     border-radius: 45px;
     gap: 35px;
+}
+
+.cadastro-box a {
+    color: white;
+    margin-top: 20px;
 }
 
 .cubos-box {
@@ -74,6 +80,7 @@
 .campos {
     display: flex;
     flex-direction: column;
+    align-items: center;
     margin-top: 0px;
 }
 
@@ -135,3 +142,31 @@
     align-items: center;
     color: rgb(255, 255, 255);
 }
+
+.verificacoes {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.verificacoes span {
+    display: flex;
+    width: min-content;
+    align-items: center;
+}
+
+.verificadores {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.indicador {
+    height: 15px;
+    width: 15px;
+    background-color: green;
+    border-radius: 40px;
+    border: 1px black solid;
+}
+

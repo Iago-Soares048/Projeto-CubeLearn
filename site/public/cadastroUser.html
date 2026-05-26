@@ -34,11 +34,28 @@
                 </div>
 
                 <div class="campo senha">
-                    <input id="senha_input" type="password" placeholder="Sua senha">
+                    <input id="senha_input" type="password" placeholder="Sua senha" oninput="escrevendo()">
                 </div>
 
                 <div class="campo">
-                    <input id="confirmacao_senha_input" type="password" placeholder="Repita sua senha">
+                    <input id="confirmacao_senha_input" type="password" placeholder="Repita sua senha"
+                        oninput="escrevendo()">
+                </div>
+
+                <div class="verificacoes" id="verificacoes">
+                    <div class="verificadores" id="verificadores">
+                        <div class="indicador Ver_7" id="Ver_7"></div><span>Mais de 7 caracteres</span>
+                    </div>
+                    <div class="verificadores" id="verificadores">
+                        <div class="indicador Ver_Minuscula" id="Ver_Minuscula"></div><span>Letra maiuscula</span>
+                    </div>
+                    <div class="verificadores" id="verificadores">
+                        <div class="indicador Ver_Maiuscula" id="Ver_Maiuscula"></div><span>Letra minuscula</span>
+
+                    </div>
+                    <div class="verificadores" id="verificadores">
+                        <div class="indicador Ver_Numero" id="Ver_Numero"></div><span>Número</span>
+                    </div>
                 </div>
 
             </div>
@@ -48,7 +65,9 @@
                 <a href="./login.html">Já tenho uma conta</a>
             </div>
 
+            
         </div>
+        
 
 
     </section>
@@ -71,31 +90,8 @@
         var confirmacaoSenhaVar = confirmacao_senha_input.value;
 
         // Verificando se há algum campo em branco
-        if (
-            emailVar == "" ||
-            senhaVar == "" ||
-            confirmacaoSenhaVar == ""
-        ) {
+        
 
-            // finalizarAguardar();
-            return false;
-        }
-
-        // Verificando se o código de ativação é de alguma empresa cadastrada
-
-        /* for (let i = 0; i < listaEmpresasCadastradas.length; i++) {
-            if (listaEmpresasCadastradas[i].codigo_ativacao == codigoVar) {
-                idEmpresaVincular = listaEmpresasCadastradas[i].id
-                console.log("Código de ativação válido.");
-                break;
-            } else {
-                cardDeErro.style.display = "block";
-                mensagem_erro.innerHTML = "(Mensagem de erro para código inválido)";
-                // finalizarAguardar();
-            }
-        } */
-
-        // Enviando o valor da nova input
         if (nomeVar != "" && emailVar != "" && senhaVar != "" && confirmacaoSenhaVar != "" && senhaVar == confirmacaoSenhaVar) {
 
 
@@ -138,45 +134,72 @@
                 });
 
             return false;
+        } else if (senhaVar != confirmacaoSenhaVar) {
+
+            cardDeErro.style.display = `flex`
+            cardDeErro.innerHTML = `<h1>A senha deve ser igual nos dois campos!</h1>`
+            setTimeout(() => {
+                cardDeErro.style.display = `none`
+                cardDeErro.innerHTML = ``
+            }, 5000);
+        } else {
+
+            cardDeErro.style.display = `flex`
+            cardDeErro.innerHTML = `<span>Preencha todos os campos!</span>`
+            setTimeout(() => {
+                cardDeErro.style.display = `none`
+                cardDeErro.innerHTML = ``
+            }, 5000);
+        }
+    }
+
+    function escrevendo() {
+        let senhaVar = senha_input.value;
+        let seguranca = 0
+
+        verificacoes.style.display = 'flex'
+
+        if (senhaVar.includes("0") || senhaVar.includes("1") ||
+            senhaVar.includes("2") || senhaVar.includes("3") ||
+            senhaVar.includes("4") || senhaVar.includes("5") ||
+            senhaVar.includes("6") || senhaVar.includes("7") ||
+            senhaVar.includes("8") || senhaVar.includes("9")) {
+            Ver_Numero.style.backgroundColor = 'green'
+            seguranca++
+        } else {
+            Ver_Numero.style.backgroundColor = 'red'
+        }
+        
+        if (senhaVar.toUpperCase() == senhaVar) {
+            Ver_Minuscula.style.backgroundColor = 'red'
         }else {
-                        cardDeErro.style.display = `flex`
-                        cardDeErro.innerHTML = `<h1>Preencha todos os campos corretamente</h1>`
-                        setTimeout(() => {
-                            cardDeErro.style.display = `none`
-                            cardDeErro.innerHTML = ``
-                        }, 5000);
-                    }
+            Ver_Minuscula.style.backgroundColor = 'green'
+            seguranca++
+        }
+
+        if (senhaVar.toLowerCase() == senhaVar) {
+            Ver_Maiuscula.style.backgroundColor = 'red'
+        }else {
+            Ver_Maiuscula.style.backgroundColor = 'green'
+            seguranca++
+        }
+
+        if (senhaVar.length <= 7) {
+            Ver_7.style.backgroundColor = 'red'
+        }else {
+            Ver_7.style.backgroundColor = 'green'
+            seguranca++
+        }
+
+        if (senhaVar)
+        if (seguranca == 4) {
+        verificacoes.style.display = 'none'
+        }
+
+
+
+
     }
 
-    function cadastrarUsuario() {
-        let nome = nome_input.value
-        let email = email_input.value
-        let senha = senha_input.value
-        let senhaR = confirmacao_senha_input.value
 
-    }
-
-    // Listando empresas cadastradas 
-    /*     function listar() {
-            fetch("/empresas/listar", {
-                method: "GET",
-            })
-                .then(function (resposta) {
-                    resposta.json().then((empresas) => {
-                        empresas.forEach((empresa) => {
-                            listaEmpresasCadastradas.push(empresa);
-    
-                            console.log("listaEmpresasCadastradas")
-                            console.log(listaEmpresasCadastradas[0].codigo_ativacao)
-                        });
-                    });
-                })
-                .catch(function (resposta) {
-                    console.log(`#ERRO: ${resposta}`);
-                });
-        } */
-
-    /*     function sumirMensagem() {
-            cardErro.style.display = "none";
-        } */
 </script>

@@ -65,9 +65,9 @@
                 <a href="./login.html">Já tenho uma conta</a>
             </div>
 
-            
+
         </div>
-        
+
 
 
     </section>
@@ -76,23 +76,15 @@
 </html>
 
 <script>
-    // Array para armazenar empresas cadastradas para validação de código de ativação 
-    let listaEmpresasCadastradas = [];
 
     function cadastrar() {
-        // aguardar();
 
-        //Recupere o valor da nova input pelo nome do id
-        // Agora vá para o método fetch logo abaixo
         var nomeVar = nome_input.value;
         var emailVar = email_input.value;
         var senhaVar = senha_input.value;
         var confirmacaoSenhaVar = confirmacao_senha_input.value;
 
-        // Verificando se há algum campo em branco
-        
-
-        if (nomeVar != "" && emailVar != "" && senhaVar != "" && confirmacaoSenhaVar != "" && senhaVar == confirmacaoSenhaVar) {
+        if (nomeVar != "" && emailVar != "" && senhaVar != "" && confirmacaoSenhaVar != "" && senhaVar == confirmacaoSenhaVar && seguranca == 4) {
 
 
             fetch("/usuarios/cadastrar", {
@@ -101,8 +93,6 @@
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    // crie um atributo que recebe o valor recuperado aqui
-                    // Agora vá para o arquivo routes/usuario.js
 
                     nomeServer: nomeVar,
                     emailServer: emailVar,
@@ -113,17 +103,13 @@
                     console.log("resposta: ", resposta);
 
                     if (resposta.ok) {
-                        cardDeErro.style.display = "block";
-                        /* 
-                                            mensagem_erro.innerHTML =
-                                                "Cadastro realizado com sucesso! Redirecionando para tela de Login..."; */
 
                         setTimeout(() => {
                             cardDeErro.innerHTML = `<h1>Redirecionando...</h1>`
                             window.location = "login.html"
                         }, 3000);
 
-                        //  finalizarAguardar();
+
                     } else {
                         throw "Houve um erro ao tentar realizar o cadastro trhowwwwwww!";
                     }
@@ -142,6 +128,14 @@
                 cardDeErro.style.display = `none`
                 cardDeErro.innerHTML = ``
             }, 5000);
+        }else if (seguranca != 4) {
+
+            cardDeErro.style.display = `flex`
+            cardDeErro.innerHTML = `<span>Preencha todos os campos!</span>`
+            setTimeout(() => {
+                cardDeErro.style.display = `none`
+                cardDeErro.innerHTML = ``
+            }, 5000);
         } else {
 
             cardDeErro.style.display = `flex`
@@ -150,12 +144,14 @@
                 cardDeErro.style.display = `none`
                 cardDeErro.innerHTML = ``
             }, 5000);
-        }
+        } 
     }
-
+    
+    
+    let seguranca = 0
     function escrevendo() {
         let senhaVar = senha_input.value;
-        let seguranca = 0
+        seguranca = 0
 
         verificacoes.style.display = 'flex'
 
@@ -169,31 +165,30 @@
         } else {
             Ver_Numero.style.backgroundColor = 'red'
         }
-        
+
         if (senhaVar.toUpperCase() == senhaVar) {
             Ver_Minuscula.style.backgroundColor = 'red'
-        }else {
+        } else {
             Ver_Minuscula.style.backgroundColor = 'green'
             seguranca++
         }
 
         if (senhaVar.toLowerCase() == senhaVar) {
             Ver_Maiuscula.style.backgroundColor = 'red'
-        }else {
+        } else {
             Ver_Maiuscula.style.backgroundColor = 'green'
             seguranca++
         }
 
         if (senhaVar.length <= 7) {
             Ver_7.style.backgroundColor = 'red'
-        }else {
+        } else {
             Ver_7.style.backgroundColor = 'green'
             seguranca++
         }
 
-        if (senhaVar)
         if (seguranca == 4) {
-        verificacoes.style.display = 'none'
+            verificacoes.style.display = 'none'
         }
 
 

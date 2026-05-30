@@ -1,14 +1,5 @@
 Create database CubeLearn;
 use CubeLearn;
-show tables;
-
-describe Usuarios;
-describe cubo;
-describe estiloDeSolucao;
-describe metas;
-describe recordsPessoais;
-describe registroDeTempo;
-describe scramble;
 
 
 create table Usuarios(
@@ -25,48 +16,38 @@ idUsuario int,
 foreign key (idUsuario) references Usuarios(idUsuario)
 );
 
-create table estiloDeSolucao(
-idEstilo int,
-estilo varchar(100),
-solucaoDescricao varchar(100),
+create table registroDeTempo(
+idRegistro int auto_increment,
+horaDoRegistro datetime default current_timestamp,
+tempoSolucao varchar(45),
 idCubo int,
-primary key (idEstilo, idCubo),
+primary key (idRegistro, idCubo),
 foreign key (idCubo) references cubo(idCubo)
 );
 
-create table metas(
-idMeta int auto_increment,
-meta varchar(100),
-idEstilo int,
-idCubo int,
-foreign key (idCubo) references estiloDeSolucao(idCubo),
-foreign key (idEstilo) references estiloDeSolucao(idEstilo)
-);
+select * from registroDeTempo;
 
-create table recordsPessoais(
-idRecord int,
-tempoSolucao varchar(45),
-idEstilo int,
-idCubo int,
-primary key (idRecord, idEstilo, idCubo),
-foreign key (idCubo) references estiloDeSolucao(idCubo),
-foreign key (idEstilo) references estiloDeSolucao(idEstilo)
-);
 
-create table registroDeTempo(
-idRegistro int,
-horaDoRegistro timestamp,
-idEstilo int,
-primary key (idRegistro, idEstilo),
-foreign key (idEstilo) references estiloDeSolucao(idEstilo)
-);
+select * from Usuarios;
 
-create table scramble(
-idScramble int,
-movimentos varchar(100),
-idRegistro int,
-idEstilo int,
-primary key (idScramble, idRegistro, idEstilo),
-foreign key (idRegistro) references registroDeTempo(idRegistro),
-foreign key (idEstilo) references registroDeTempo(idEstilo)
-);
+select Usuarios.nome as nome, cubo.modelo as modelo from Usuarios join cubo on cubo.idUsuario = Usuarios.idUsuario where Usuarios.idUsuario = '1';
+
+select Usuario.nome as usuario, Usuario.email as email, Cubo.modelo as modelo, horaDoRegistro, tempoSolucao from Usuarios as Usuario 
+ join cubo as Cubo on Usuario.idUsuario = Cubo.idUsuario
+ join registroDeTempo on registroDeTempo.idCubo = Cubo.idCubo
+ WHERE email = 'ADM@gmail.com';
+
+select Usuario.nome as usuario, Usuario.email as email, Cubo.modelo as modelo, horaDoRegistro, tempoSolucao, Cubo.idCubo from Usuarios as Usuario 
+ join cubo as Cubo on Usuario.idUsuario = Cubo.idUsuario
+ join registroDeTempo on registroDeTempo.idCubo = Cubo.idCubo
+ WHERE email = 'teste@.com';
+
+select * from cubo;
+select * from registroDeTempo;
+delete from registroDeTempo where idRegistro >= 0;
+
+
+select Usuario.nome as usuario, Usuario.email as email, Cubo.modelo as modelo, horaDoRegistro, tempoSolucao from Usuarios as Usuario 
+ join cubo as Cubo on Usuario.idUsuario = Cubo.idUsuario
+ join registroDeTempo on registroDeTempo.idCubo = Cubo.idCubo
+ WHERE email = 'iago@gmail.com';
